@@ -1,620 +1,165 @@
 'use client'
 import { useRouter } from 'next/navigation';
-
 import { useEffect, useState } from 'react';
-import useEmblaCarousel from 'embla-carousel-react'
+
 const HomePage = () => {
-  
-    const [activeIndex, setActiveIndex] = useState(null);
-    const [data, setData] = useState([]);
-    const [filteredData, setFilteredData] = useState([]);
-    const [selectedSport, setSelectedSport] = useState('Cricket');
-    const [casinoMenu, setCasinoMenu] = useState([]);
-    const [casinoLobby, setCasinoLobby] = useState( [
-        {
-          "eventId": "99.0010",
-          "eventName": "TEENPATTI",
-          "menuId": "2",
-          "menuName": "Teen Patti",
-          "url": "/poker.jpg",
-          "link": "/notworking/poker1",
-          "popular": true,
-          "sequence": 1,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "88.0022",
-          "eventName": "VIMAAN",
-          "menuId": "16",
-          "menuName": "Virtual",
-          "url": "/vimaan.jpg",
-          "link": "/notworking/crash",
-          "popular": true,
-          "sequence": 2,
-          "companyName": "UNIVERSE",
-          "room": "virtual"
-        },
-        {
-          "eventId": "99.0001",
-          "eventName": "BACCARAT",
-          "menuId": "5",
-          "menuName": "Baccarat",
-          "url": "/baccarat.jpg",
-          "link": "/notworking/poker4",
-          "popular": true,
-          "sequence": 4,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0019",
-          "eventName": "20-20 DRAGON TIGER",
-          "menuId": "4",
-          "menuName": "Dragon Tiger",
-          "url": "/dragon1.jpg",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 5,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0030",
-          "eventName": "LUCKY 7 - A",
-          "menuId": "3",
-          "menuName": "Lucky 7",
-          "url": "http:///api/users/images/LUCKY7-A.png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 5,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0025",
-          "eventName": "ANDAR BAHAR - A",
-          "menuId": "9",
-          "menuName": "Andar Bahar",
-          "url": "http:///api/users/images/AndarBahar2-min-min.png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 5,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0022",
-          "eventName": "32 CARDS - A",
-          "menuId": "20",
-          "menuName": "Other",
-          "url": "/poker7.jpg",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 6,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0007",
-          "eventName": "20-20 POKER -  A",
-          "menuId": "10",
-          "menuName": "Poker",
-          "url": "http:///api/users/images/poker-min (1).png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 7,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0002",
-          "eventName": "BACCARAT SUPER 6",
-          "menuId": "5",
-          "menuName": "Baccarat",
-          "url": "/poker4.png",
-          "link": "/notworking/poker5",
-          "popular": true,
-          "sequence": 8,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0013",
-          "eventName": "1 DAY TEEN PATTI",
-          "menuId": "2",
-          "menuName": "Teen Patti",
-          "url": "/poker5.png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 9,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0018",
-          "eventName": "DRAGON TIGER",
-          "menuId": "4",
-          "menuName": "Dragon Tiger",
-          "url": "http:///api/users/images/Dragon-Tiger-min.png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 10,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0032",
-          "eventName": "FAST LUCKY - 7",
-          "menuId": "3",
-          "menuName": "Lucky 7",
-          "url": "http:///api/users/images/Fast lucky7-min.png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 11,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0021",
-          "eventName": "1 DAY DRAGON TIGER",
-          "menuId": "20",
-          "menuName": "Other",
-          "url": "/dragon.jpg",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 12,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0014",
-          "eventName": "MUFLIS TEEN PATTI",
-          "menuId": "2",
-          "menuName": "Teen Patti",
-          "url": "/poker3.jpg",
-          "link": "/notworking/poker3",
-          "popular": true,
-          "sequence": 14,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0041",
-          "eventName": "DTL - A",
-          "menuId": "4",
-          "menuName": "Dragon Tiger",
-          "url": "http:///api/users/images/DTL-01 3-min.png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 15,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0020",
-          "eventName": "FAST DRAGON TIGER",
-          "menuId": "4",
-          "menuName": "Dragon Tiger",
-          "url": "http:///api/users/images/Fast Dragon-Tiger-min-min.png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 16,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0027",
-          "eventName": "CASINO WAR",
-          "menuId": "20",
-          "menuName": "Other",
-          "url": "/poker9.jpg",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 17,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        
-        {
-          "eventId": "99.0056",
-          "eventName": "32 CARD BACCARAT",
-          "menuId": "5",
-          "menuName": "Baccarat",
-          "url": "/poker6.jpg",
-          "link": "/notworking/poker6",
-          "popular": true,
-          "sequence": 20,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        
-        {
-          "eventId": "99.0015",
-          "eventName": "POINT TEEN PATTI",
-          "menuId": "20",
-          "menuName": "teen patti",
-          "url": "/poker13.jpg",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 21,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0016",
-          "eventName": "JOKER TEEN PATTI",
-          "menuId": "20",
-          "menuName": "Other",
-          "url": "/joker.jpg",
-          "link": "/notworking/poker2",
-          "popular": true,
-          "sequence": 21,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "88.0021",
-          "eventName": "HEADS & TAILS",
-          "menuId": "16",
-          "menuName": "Virtual",
-          "url": "/coin.jpg",
-          "link": "/notworking/toss",
-          "popular": true,
-          "sequence": 21,
-          "companyName": "UNIVERSE",
-          "room": "virtual"
-        },
-        {
-          "eventId": "88.0020",
-          "eventName": " ROULETTE",
-          "menuId": "16",
-          "menuName": "Virtual",
-          "url": "/roulette1.png",
-          "link": "/notworking/roulette",
-          "popular": true,
-          "sequence": 21,
-          "companyName": "UNIVERSE",
-          "room": "virtual"
-        },
-        {
-          "eventId": "88.0019",
-          "eventName": "LUCKY 0 TO 9",
-          "menuId": "16",
-          "menuName": "Virtual",
-          "url": "/0-9.jpg",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 21,
-          "companyName": "UNIVERSE",
-          "room": "virtual"
-        },
-        {
-          "eventId": "10238658846815",
-          "eventName": "BETGAMES CASINO",
-          "menuId": "10",
-          "menuName": "Poker",
-          "url": "https://universe-studio.s3.ap-south-1.amazonaws.com/abevolution+gaming-3-min.png",
-          "link": "https://pi.njoybingo.com/game.do?token={$token}&pn=t20exchange&lang=en&game=BGAMES-betgames&type=CHARGED",
-          "popular": true,
-          "sequence": 22,
-          "companyName": "INTERNATIONAL",
-          "room": "asian"
-        },
-        {
-          "eventId": "10238658846812",
-          "eventName": "TVBET",
-          "menuId": "10",
-          "menuName": "Poker",
-          "url": "https://universe-studio.s3.ap-south-1.amazonaws.com/abevolution+gaming-2-min.png",
-          "link": "https://pi.njoybingo.com/game.do?token={$token}&pn=t20exchange&lang=en&game=TVBET-lobby&type=CHARGED",
-          "popular": true,
-          "sequence": 22,
-          "companyName": "INTERNATIONAL",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0005",
-          "eventName": "AMAR AKBAR ANTHONY",
-          "menuId": "15",
-          "menuName": "Bollywood",
-          "url": "http:///api/users/images/amar_akbar_anthony-min.png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 23,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0040",
-          "eventName": "3 CARD JUDGEMENT - A",
-          "menuId": "20",
-          "menuName": "Other",
-          "url": "/poker10.jpg",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 24,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0051",
-          "eventName": "1 CARD METER",
-          "menuId": "20",
-          "menuName": "Other",
-          "url": "/poker16.jpg",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 25,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0057",
-          "eventName": "1 CARD 20-20",
-          "menuId": "20",
-          "menuName": "Other",
-          "url": "/poker17.jpg",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 26,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0060",
-          "eventName": "TRIO",
-          "menuId": "20",
-          "menuName": "Other",
-          "url": "/poker14.jpg",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 27,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0034",
-          "eventName": "ANDAR BAHAR - C",
-          "menuId": "9",
-          "menuName": "Andar Bahar",
-          "url": "http:///api/users/images/AndarBahar3-min.png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 28,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0058",
-          "eventName": "LOTTERY",
-          "menuId": "20",
-          "menuName": "Other",
-          "url": "/lottery.jpg",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 28,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0008",
-          "eventName": "20-20 POKER - B",
-          "menuId": "10",
-          "menuName": "Poker",
-          "url": "http:///api/users/images/20-20 Poker-min.png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 29,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0004",
-          "eventName": "DTL TEENPATTI",
-          "menuId": "2",
-          "menuName": "Teen Patti",
-          "url": "/dtl.jpg",
-          "link": "/notworking/poker8",
-          "popular": true,
-          "sequence": 30,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0006",
-          "eventName": "INA MINA DIKA",
-          "menuId": "15",
-          "menuName": "Bollywood",
-          "url": "http:///api/users/images/InaMinaDika-01-min-min.png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 31,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0031",
-          "eventName": "LUCKY 7 - B",
-          "menuId": "3",
-          "menuName": "Lucky 7",
-          "url": "http:///api/users/images/LUCKY7-B.png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 31,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0050",
-          "eventName": "BOLLYWOOD CASINO",
-          "menuId": "15",
-          "menuName": "Bollywood",
-          "url": "http:///api/users/images/Bollywood Casino 2-min.png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 32,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0046",
-          "eventName": "20-20 CARD RACE",
-          "menuId": "1",
-          "menuName": "Popular",
-          "url": "http:///api/users/images/CardRace-01-min.png",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 33,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        {
-          "eventId": "99.0036",
-          "eventName": "BACCARAT STANDARD 6",
-          "menuId": "5",
-          "menuName": "Baccarat",
-          "url": "/poker5.jpg",
-          "link": "/notworking/poker7",
-          "popular": true,
-          "sequence": 38,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        },
-        
-        {
-          "eventId": "99.0059",
-          "eventName": "KBC",
-          "menuId": "20",
-          "menuName": "Other",
-          "url": "/quiz.jpg",
-          "link": "/notworking/home",
-          "popular": true,
-          "sequence": 45,
-          "companyName": "UNIVERSE",
-          "room": "asian"
-        }
-      ]);
- const [activeLink, setActiveLink] = useState('');
-    const router = useRouter();
+  const router = useRouter();
 
-    useEffect(() => {
-        setActiveLink(router.pathname);
-    }, [router.pathname]);
-
-      const [emblaRef] = useEmblaCarousel()
-      
-    const toggleAccordion = (index) => {
-        setActiveIndex(activeIndex === index ? null : index);
-    };
-    const handleLinkClick = (href) => {
-      setActiveLink(href);
-      setTimeout(() => {setActiveLink('');}, 100);
-      
-      router.push(href);
+  const handleLinkClick = (href) => {
+    router.push(href);
   };
 
-    useEffect(() => {
-        fetch('https://www.55sport.in/api/exchange/events/searchEventList?key', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ key: '' })
-        })
-            .then(response => response.json())
-            .then(data => {
-                setData(data.data);
-                setFilteredData(data.data.filter(item => item.sportName === 'Cricket'));
-                console.log(data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
+  const features = [
+    {
+      icon: "🚀",
+      title: "Fast & Reliable",
+      description: "Built with modern technologies for optimal performance and reliability."
+    },
+    {
+      icon: "📱",
+      title: "Responsive Design",
+      description: "Perfectly adapted for all devices - desktop, tablet, and mobile."
+    },
+    {
+      icon: "🔒",
+      title: "Secure & Safe",
+      description: "Enterprise-grade security to protect your data and privacy."
+    },
+    {
+      icon: "⚡",
+      title: "Lightning Fast",
+      description: "Optimized for speed with cutting-edge performance techniques."
+    }
+  ];
 
+  const services = [
+    {
+      title: "Web Development",
+      description: "Custom websites and web applications built with the latest technologies.",
+      image: "/service1.jpg"
+    },
+    {
+      title: "Mobile Apps",
+      description: "Native and cross-platform mobile applications for iOS and Android.",
+      image: "/service2.jpg"
+    },
+    {
+      title: "Digital Solutions",
+      description: "Complete digital transformation services for modern businesses.",
+      image: "/service3.jpg"
+    }
+  ];
 
-    }, []);
-
-    const filterData = (sportName) => {
-        setSelectedSport(sportName);
-        setFilteredData(data.filter(item => item.sportName === sportName));
-    };
-
-    return (
-      <div>
-                                    <img src="/banner.jpg" className='banner' alt="Banner"  />
-
-      <div className='hidden'>
-        <br></br>
-        <div className='p-1 submenu'>
-          <span onClick={() => filterData('Cricket')} className={selectedSport === 'Cricket' ? 'active' : ''}>Cricket</span>
-          <span onClick={() => filterData('Soccer')} className={selectedSport === 'Soccer' ? 'active' : ''}>Soccer</span>
-          <span onClick={() => filterData('Tennis')} className={selectedSport === 'Tennis' ? 'active' : ''}>Tennis</span>
+  return (
+    <div className="homepage">
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="hero-content">
+          <h1 className="hero-title">
+            Welcome to Your Professional
+            <span className="hero-highlight"> Website Base</span>
+          </h1>
+          <p className="hero-description">
+            A modern, clean, and professional website foundation ready to be customized for any business or organization.
+          </p>
+          <div className="hero-buttons">
+            <button 
+              onClick={() => handleLinkClick('/app/tips')} 
+              className="btn-primary"
+            >
+              Explore News
+            </button>
+            <button 
+              onClick={() => handleLinkClick('/app/cricket')} 
+              className="btn-secondary"
+            >
+              View Products
+            </button>
+          </div>
         </div>
-        <table className='bgs'>
-          <tbody>
-          <tr>
-            {filteredData.map((item, index) => (
-              <td key={index} className='c46'>
-                <span>{item.eventName}</span>
-                <span className='date'>{new Date(item.eventTime).toLocaleString()}</span>
-              </td>
-            ))}
-          </tr>
-          </tbody>
-        </table>
-        
-      </div>
-        <br></br>
-        <div className='casinos'>
-        <div className='highlights'>Phones</div>
-        <div className='tiles'>
-          {casinoLobby.filter(item => item.menuName.toLowerCase() === 'phones').map((item, index) => (
-            <div  key={index} onClick={() => handleLinkClick(item.link)} className={`tile ${item.link=='/notworking/home'?'disabled':''}`}>
-             <img  src= {item.url}  /> <span>{item.eventName}</span>
+        <div className="hero-image">
+          <div className="hero-placeholder">
+            🌟 Professional Website Base
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="features-section">
+        <div className="section-header">
+          <h2>Why Choose Us</h2>
+          <p>Discover the features that make us stand out</p>
+        </div>
+        <div className="features-grid">
+          {features.map((feature, index) => (
+            <div key={index} className="feature-card">
+              <div className="feature-icon">{feature.icon}</div>
+              <h3 className="feature-title">{feature.title}</h3>
+              <p className="feature-description">{feature.description}</p>
             </div>
           ))}
         </div>
-          </div>
-          <br>
-          </br>
-          <br></br>
-          <div className='casinos'>
-        <div className='highlights'>Headphones</div>
-        <div className='tiles'>
-          {casinoLobby.filter(item => item.menuName.toLowerCase() === 'headphones').map((item, index) => (
-            <div  key={index} onClick={() => handleLinkClick(item.link)} className={`tile ${item.link=='/notworking/home'?'disabled':''}`}>
-            <img  src= {item.url}  /> <span>{item.eventName}</span>
-           </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="services-section">
+        <div className="section-header">
+          <h2>Our Services</h2>
+          <p>Professional solutions tailored to your needs</p>
+        </div>
+        <div className="services-grid">
+          {services.map((service, index) => (
+            <div key={index} className="service-card">
+              <div className="service-image">
+                <div className="service-placeholder">
+                  📊 {service.title}
+                </div>
+              </div>
+              <div className="service-content">
+                <h3 className="service-title">{service.title}</h3>
+                <p className="service-description">{service.description}</p>
+                <button className="service-button">Learn More</button>
+              </div>
+            </div>
           ))}
         </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="cta-section">
+        <div className="cta-content">
+          <h2>Ready to Get Started?</h2>
+          <p>Join thousands of satisfied customers who trust our professional services.</p>
+          <div className="cta-buttons">
+            <button className="btn-primary">Get Started</button>
+            <button className="btn-outline">Contact Us</button>
           </div>
-          <br></br>
-          <br></br>
-          <div className='casinos'>
-        <div className='highlights'>Laptops</div>
-        <div className='tiles'>
-          {casinoLobby.filter(item => item.menuName.toLowerCase() === 'laptops').map((item, index) => (
-            <div  key={index} onClick={() => handleLinkClick(item.link)} className={`tile ${item.link=='/notworking/home'?'disabled':''}`}>
-            <img  src= {item.url}  /> <span>{item.eventName}</span>
-           </div>
-          ))}
         </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="stats-section">
+        <div className="stats-grid">
+          <div className="stat-item">
+            <div className="stat-number">500+</div>
+            <div className="stat-label">Happy Clients</div>
           </div>
-          <br></br>
-          <br></br>
-          <div className='casinos'>
-        <div className='highlights'>Others</div>
-        <div className='tiles'>
-          {casinoLobby.filter(item => item.menuName.toLowerCase() === 'others').map((item, index) => (
-            <div  key={index} onClick={() => handleLinkClick(item.link)} className={`tile ${item.link=='/notworking/home'?'disabled':''}`}>
-            <img  src= {item.url}  /> <span>{item.eventName}</span>
-           </div>
-          ))}
+          <div className="stat-item">
+            <div className="stat-number">1000+</div>
+            <div className="stat-label">Projects Completed</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-number">24/7</div>
+            <div className="stat-label">Support Available</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-number">99%</div>
+            <div className="stat-label">Customer Satisfaction</div>
+          </div>
         </div>
-          </div>
-          <br></br>
-          <br></br>
-       </div>
-    );
+      </section>
+    </div>
+  );
 };
 
 export default HomePage;
