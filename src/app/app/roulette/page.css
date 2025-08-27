@@ -1,0 +1,34 @@
+.roulette-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 5px;
+    margin: 20px 0;
+    color: black;
+}
+
+.grid-cell {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.grid-cell.selected {
+    background-color: #ffcc00;
+    border-color: #ff9900;
+}
+
+
+.bets{
+    border: 2px outset #d65fcc;
+}
+
+.dropdown-with-search {
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown-with-search input {
+    margin-bottom: 5px;
+}
