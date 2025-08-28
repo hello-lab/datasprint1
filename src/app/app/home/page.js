@@ -75,6 +75,13 @@ const HomePage = () => {
             >
               View Products
             </button>
+            <button 
+              onClick={() => handleLinkClick('/app/googlefit')} 
+              className="btn-primary"
+              style={{ marginLeft: '10px' }}
+            >
+              🏃‍♂️ Google Fit
+            </button>
           </div>
         </div>
         <div className="hero-image">
