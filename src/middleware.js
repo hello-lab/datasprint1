@@ -10,12 +10,11 @@ export async function middleware(req) {
     
     let url=req.url.split('/')
     url=(url.length)==5?'/'+req.url.split('/')[3]+'/'+req.url.split('/')[4]:req.url.split('/')[3]
-    console.log(url)
     
     // Handle admin routes separately
-    if (url && url.startsWith('/admin')) {
+    if (url && (url === 'admin' || url.startsWith('admin/') || url === '/admin' || url.startsWith('/admin/'))) {
         // Allow access to admin login page without authentication
-        if (url === '/admin') {
+        if (url === 'admin' || url === '/admin') {
             return NextResponse.next();
         }
         
@@ -44,7 +43,7 @@ export async function middleware(req) {
                 return NextResponse.redirect(new URL('/app/home', req.url));
            
         } catch (error) {
-          //  console.log(error);
+            // Token invalid, continue to redirect logic
         }
     
     
@@ -52,7 +51,6 @@ export async function middleware(req) {
     if (allowedsites.indexOf(url)==-1)
         {
             if (!token) {
-      //  console.log('1')
        return NextResponse.redirect(new URL('/', req.url));
         
     }
@@ -64,7 +62,6 @@ export async function middleware(req) {
             return NextResponse.redirect(new URL('/app/home', req.url));
         return NextResponse.next();
     } catch (error) {
-      //  console.log(error);
        return NextResponse.redirect(new URL('/', req.url));
     }}
 }
