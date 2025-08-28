@@ -1,4 +1,5 @@
 import { auth } from "../../lib/auth"
+import stepDb from "../../db/stepDb"
 
 export async function GET(request) {
   try {
@@ -71,6 +72,25 @@ export async function GET(request) {
           })
         }
       })
+    }
+
+    // Save step data to database
+    try {
+      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+      const insertStmt = stepDb.prepare(`
+        INSERT OR REPLACE INTO user_steps (user_email, user_name, steps, date)
+        VALUES (?, ?, ?, ?)
+      `);
+      
+      insertStmt.run(
+        session.user?.email || 'unknown',
+        session.user?.name || 'Unknown User',
+        totalSteps,
+        today
+      );
+    } catch (dbError) {
+      console.error('Error saving step data to database:', dbError);
+      // Continue execution even if database save fails
     }
 
     return new Response(JSON.stringify({ 
