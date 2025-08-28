@@ -62,10 +62,10 @@ const LeaderboardPage = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            🏆 Step Count Leaderboard
+            🏆 Wellness Leaderboard
           </h1>
           <p className="text-lg text-gray-600">
-            Daily rankings based on Google Fit step data
+            Daily rankings based on steps taken and stepcoins earned
           </p>
           {leaderboardData && (
             <p className="text-sm text-gray-500 mt-2">
@@ -127,6 +127,11 @@ const LeaderboardPage = () => {
                       {user.steps.toLocaleString()}
                     </div>
                     <div className="text-sm text-gray-500">steps</div>
+                    {user.stepcoins_earned > 0 && (
+                      <div className="text-lg font-semibold text-orange-600 mt-1">
+                        💰 {user.stepcoins_earned} coins
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
