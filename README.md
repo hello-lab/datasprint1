@@ -306,6 +306,34 @@ SQLite databases are created automatically on first run:
 - Implement proper error handling
 - Add appropriate loading states
 
+### 📱 Feature Documentation with Screenshots
+Added comprehensive documentation for all major features with visual examples:
+
+**Landing Page - Authentication Interface**
+![Landing Page](https://github.com/user-attachments/assets/7ef08773-31d5-40a0-aeeb-82fd00393b3e)
+*Beautiful glassmorphism design with StepUp branding and user authentication*
+
+**Home Dashboard - Breathing Exercise**
+![Home Dashboard](https://github.com/user-attachments/assets/a400b8a4-f70e-4318-9c91-3910f2f82860)
+*Interactive breathing exercise with clean navigation and wellness focus*
+
+**User Profile - Balance & Activity Tracking**
+![User Profile](https://github.com/user-attachments/assets/fdcc709f-7dff-4f93-bd15-6f6526a8d5ac)
+*Personal dashboard showing balance (₹100,000), step count, and transaction history*
+
+**Steppe AI Assistant - Corporate Fitness Coach**
+![Steppe Chatbot](https://github.com/user-attachments/assets/7a16ead5-575a-46e5-aea8-e96cf08b75ae)
+*AI-powered fitness assistant specialized for corporate wellness programs*
+
+**Leaderboard - Gamified Competition**
+![Leaderboard](https://github.com/user-attachments/assets/fcaf592d-7adf-4b7d-947f-cfaa5e9b116d)
+*Step count competition with Google Fit integration and medal rankings*
+
+**Google Fit Integration - Health Data Sync**
+![Google Fit Integration](https://github.com/user-attachments/assets/a400b8a4-f70e-4318-9c91-3910f2f82860)
+*Seamless integration with Google Fit for automatic step tracking*
+
+
 ## 🔍 Troubleshooting
 
 ### Common Issues
