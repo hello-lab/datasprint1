@@ -59,7 +59,7 @@ const GoogleFitPage = () => {
             🏃‍♂️ Google Fit Integration
           </h1>
           <p className="text-lg text-gray-600">
-            Connect your Google Fit account to view your step data for the last 24 hours
+            Connect your Google Fit account to view your step data for the last 24 hours and compete on the leaderboard
           </p>
         </div>
 
@@ -196,7 +196,14 @@ const GoogleFitPage = () => {
         )}
 
         {/* Navigation */}
-        <div className="text-center mt-8">
+        <div className="text-center mt-8 space-x-4">
+          <a 
+            href="/app/leaderboard" 
+            className="text-green-600 hover:text-green-800 font-medium"
+          >
+            🏆 View Leaderboard
+          </a>
+          <span className="text-gray-400">|</span>
           <a 
             href="/app/home" 
             className="text-blue-600 hover:text-blue-800 font-medium"

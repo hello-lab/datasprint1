@@ -82,6 +82,13 @@ const HomePage = () => {
             >
               🏃‍♂️ Google Fit
             </button>
+            <button 
+              onClick={() => handleLinkClick('/app/leaderboard')} 
+              className="btn-secondary"
+              style={{ marginLeft: '10px' }}
+            >
+              🏆 Leaderboard
+            </button>
           </div>
         </div>
         <div className="hero-image">
