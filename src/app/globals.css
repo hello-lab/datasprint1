@@ -478,8 +478,9 @@ main{
   border: inset 3px violet;
 }
 .logo{
-  height: 9vh;
-  width: 25vw;
+  height: 12vh;
+  width: auto;
+  box-shadow: 0 4px 16px 0 rgba(255,255,255,0.5);
  
 }
 

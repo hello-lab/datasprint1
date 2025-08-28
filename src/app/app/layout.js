@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
     return (
         <div style={{ padding: '20px' }}>
             <header style={{ fontWeight:"bold",display: 'flex', marginBottom: '20px' }}>
-                <img className="logo" src="/logo.png" alt="Logo" style={{ borderRadius:'1vh', marginRight: '10px' }} />
+                <img className="logo" src="/longlogo.png" alt="Logo" style={{ borderRadius:'1vh', marginRight: '10px' }} />
                 <button style={{borderRadius:'0.5vh'}} className="hamburger-menu" onClick={toggleMenu}>
                     <span className="hamburger-icon"></span>
                 </button>

@@ -54,7 +54,7 @@ export default function Home() {
     <div className="relative flex flex-col items-center justify-center min-h-screen p-8 pb-20 gap-0 sm:p-2 font-[family-name:var(--font-geist-sans)]" style={{ backgroundColor: '#fff1c4ff' }}>
       {/* Silk background absolutely positioned */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 0, width: '100vw', height: '100vh', pointerEvents: 'none', filter: 'blur(12px)', WebkitFilter: 'blur(12px)' }}>
-        <Silk speed={5} scale={1} color="#006effff" noiseIntensity={1.5} rotation={0} />
+  <Silk speed={5} scale={1} color="#00cfff" noiseIntensity={2.5} rotation={0} />
       </div>
       {/* Content above Silk */}
   <main
