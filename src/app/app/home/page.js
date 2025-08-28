@@ -11,24 +11,24 @@ const HomePage = () => {
 
   const features = [
     {
-      icon: "🚀",
-      title: "Fast & Reliable",
-      description: "Built with modern technologies for optimal performance and reliability."
+      icon: "🏃‍♂️",
+      title: "Step Tracking",
+      description: "Connect with Google Fit to automatically track your daily steps and activity."
     },
     {
-      icon: "📱",
-      title: "Responsive Design",
-      description: "Perfectly adapted for all devices - desktop, tablet, and mobile."
+      icon: "💰",
+      title: "Stepcoins Rewards",
+      description: "Earn stepcoins for every step you take and redeem them for rewards."
     },
     {
-      icon: "🔒",
-      title: "Secure & Safe",
-      description: "Enterprise-grade security to protect your data and privacy."
+      icon: "🏆",
+      title: "Team Challenges",
+      description: "Compete with colleagues in wellness challenges and climb the leaderboard."
     },
     {
-      icon: "⚡",
-      title: "Lightning Fast",
-      description: "Optimized for speed with cutting-edge performance techniques."
+      icon: "🎯",
+      title: "Goal Setting",
+      description: "Set daily, weekly, and monthly wellness goals to stay motivated."
     }
   ];
 
@@ -56,38 +56,39 @@ const HomePage = () => {
       <section className="hero-section">
         <div className="hero-content">
           <h1 className="hero-title">
-            Welcome to Your Professional
-            <span className="hero-highlight"> Website Base</span>
+            Welcome to StepUp
+            <span className="hero-highlight"> Corporate Wellness</span>
           </h1>
           <p className="hero-description">
-            A modern, clean, and professional website foundation ready to be customized for any business or organization.
+            Track your steps, set wellness goals, compete with colleagues, and earn stepcoins for staying active and healthy.
           </p>
           <div className="hero-buttons">
             <button 
-              onClick={() => handleLinkClick('/app/tips')} 
+              onClick={() => handleLinkClick('/app/wellness')} 
               className="btn-primary"
             >
-              Explore News
-            </button>
-            <button 
-              onClick={() => handleLinkClick('/app/cricket')} 
-              className="btn-secondary"
-            >
-              View Products
+              🌟 Wellness Dashboard
             </button>
             <button 
               onClick={() => handleLinkClick('/app/googlefit')} 
-              className="btn-primary"
-              style={{ marginLeft: '10px' }}
-            >
-              🏃‍♂️ Google Fit
-            </button>
-            <button 
-              onClick={() => handleLinkClick('/app/leaderboard')} 
               className="btn-secondary"
               style={{ marginLeft: '10px' }}
             >
+              🏃‍♂️ Sync Steps
+            </button>
+            <button 
+              onClick={() => handleLinkClick('/app/leaderboard')} 
+              className="btn-primary"
+              style={{ marginLeft: '10px' }}
+            >
               🏆 Leaderboard
+            </button>
+            <button 
+              onClick={() => handleLinkClick('/app/profile')} 
+              className="btn-secondary"
+              style={{ marginLeft: '10px' }}
+            >
+              💰 View Stepcoins
             </button>
           </div>
         </div>
@@ -101,8 +102,8 @@ const HomePage = () => {
       {/* Features Section */}
       <section className="features-section">
         <div className="section-header">
-          <h2>Why Choose Us</h2>
-          <p>Discover the features that make us stand out</p>
+          <h2>Wellness Features</h2>
+          <p>Everything you need for a healthier, more active workplace</p>
         </div>
         <div className="features-grid">
           {features.map((feature, index) => (

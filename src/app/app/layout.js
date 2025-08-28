@@ -50,7 +50,7 @@ export default function RootLayout({ children }) {
                                         Home
                                     </a>
                                 </li>
-                                <li className={`ver-menu ${activeLink === '/app/tips' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/tips')}>
+                                <li className={`ver-menu ${activeLink === '/app/leaderboard' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/leaderboard')}>
                                     <a className="navbar-item hover:underline">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
                                             strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -67,12 +67,12 @@ export default function RootLayout({ children }) {
                                         Leaderboard
                                     </a>
                                 </li>
-                                <li className={`ver-menu ${activeLink === '/app/cricket' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/cricket')}>
+                                <li className={`ver-menu ${activeLink === '/app/wellness' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/wellness')}>
                                     <a className="navbar-item hover:underline">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                                         </svg>
-                                        Products
+                                        Wellness
                                     </a>
                                 </li>
                                 <li className={`ver-menu ${activeLink === '/app/steppe' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/steppe')}>

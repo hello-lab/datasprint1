@@ -1,4 +1,5 @@
 import stepDb from "../../db/stepDb"
+import transactionDb from "../../db/transactionDb"
 
 export async function GET(request) {
   try {
@@ -21,17 +22,27 @@ export async function GET(request) {
     
     const leaderboardData = leaderboardQuery.all(today);
     
-    // Add ranking to the data
-    const rankedData = leaderboardData.map((user, index) => ({
-      rank: index + 1,
-      ...user
-    }));
+    // Get stepcoins earned today for each user
+    const enrichedData = leaderboardData.map((user, index) => {
+      // Get stepcoins earned today
+      const stepcoinsToday = transactionDb.prepare(`
+        SELECT COALESCE(SUM(amount), 0) as stepcoins_earned
+        FROM transactions 
+        WHERE userId = ? AND type = 'step_reward' AND date LIKE ?
+      `).get(user.user_name, `${today}%`);
+
+      return {
+        rank: index + 1,
+        ...user,
+        stepcoins_earned: stepcoinsToday?.stepcoins_earned || 0
+      };
+    });
 
     return new Response(JSON.stringify({ 
       success: true,
       date: today,
-      leaderboard: rankedData,
-      totalUsers: rankedData.length
+      leaderboard: enrichedData,
+      totalUsers: enrichedData.length
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },

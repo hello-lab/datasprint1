@@ -88,6 +88,27 @@ export async function GET(request) {
         totalSteps,
         today
       );
+
+      // Calculate and award stepcoins for steps
+      if (totalSteps > 0) {
+        try {
+          const rewardResponse = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/rewards`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              userEmail: session.user?.email || 'unknown',
+              userName: session.user?.name || 'Unknown User',
+              steps: totalSteps
+            })
+          });
+          
+          const rewardData = await rewardResponse.json();
+          console.log('Step reward result:', rewardData);
+        } catch (rewardError) {
+          console.error('Error processing step rewards:', rewardError);
+          // Continue execution even if reward fails
+        }
+      }
     } catch (dbError) {
       console.error('Error saving step data to database:', dbError);
       // Continue execution even if database save fails
