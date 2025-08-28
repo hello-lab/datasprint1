@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
-const allowedsites=['', '/app/home','/app/soccer','/app/tennis','/app/tips','/app/cricket','/app/virtualsports','/app/googlefit','/app/leaderboard']
+const allowedsites=['', '/app/home','/app/soccer','/app/tennis','/app/tips','/app/cricket','/app/virtualsports','/app/googlefit','/app/leaderboard','/app/admin']
 export async function middleware(req) {
     const token = req.cookies.get('token');
     const secretKey = new TextEncoder().encode(process.env.SECRET_KEY);
