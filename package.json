@@ -11,6 +11,7 @@
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
     "@mozilla/readability": "^0.5.0",
+    "@react-three/fiber": "^9.3.0",
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "better-sqlite3": "^11.8.1",
@@ -32,6 +33,7 @@
     "react-hot-toast": "^2.5.1",
     "react-slick": "^0.30.3",
     "react-spinners": "^0.15.0",
+    "three": "^0.179.1",
     "tls": "^0.0.1",
     "xhr": "^2.6.0"
   },
