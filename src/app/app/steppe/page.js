@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 const GeminiChatbot = () => {
     const [messages, setMessages] = useState([
-        { sender: "bot", text: "Hello! How can I help you today?" },
+        { sender: "bot", text: "Hey there! I'm Steppe, your personal fitness assisstant and pal, ask me anything!" },
     ]);
     const [input, setInput] = useState("");
 
@@ -13,7 +13,7 @@ const GeminiChatbot = () => {
             const res = await fetch('/api/gemini', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: userMessage })
+                body: JSON.stringify({ message: `${userMessage} (you are steppe, a corporate fitness assisstant to help the employees build teamwork, morale and health)` })
             });
             const data = await res.json();
             return data.reply || 'No response.';
@@ -37,14 +37,13 @@ const GeminiChatbot = () => {
     };
 
     return (
-        <div style={{ width:"100%", margin: "2rem auto", fontFamily: "sans-serif" }}>
-            <h2>Gemini Chatbot</h2>
+        <div style={{ width:"100%", margin: "0", fontFamily: "sans-serif", overflow:"none"}}>
             <div
                 style={{
                     border: "1px solid #3871f5ff",
                     borderRadius: 8,
                     padding: 16,
-                    height: "59vh",
+                    height: "67vh",
                     overflowY: "auto",
                     background: "#fafafa",
                     marginBottom: 16,
@@ -77,9 +76,10 @@ const GeminiChatbot = () => {
                     display: "flex",
                     gap: 8,
                     position: "fixed",
-                    bottom: "5vh",
+                    bottom: "3.5vh",
                     width: "96vw",
                     translate: "none",
+                    padding: "12px 0px",
                     //marginBottom: "50px",
                 }}
             >
@@ -90,6 +90,7 @@ const GeminiChatbot = () => {
                     placeholder="Type your message..."
                     style={{ 
                         flex: 1, 
+                        color:"black",
                         padding: 8, 
                         borderRadius: 8, 
                         height: "7vh",

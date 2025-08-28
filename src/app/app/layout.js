@@ -50,7 +50,7 @@ export default function RootLayout({ children }) {
                                         Home
                                     </a>
                                 </li>
-                                <li className={`ver-menu ${activeLink === '/app/tips' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/tips')}>
+                                <li className={`ver-menu ${activeLink === '/app/leaderboard' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/leaderboard')}>
                                     <a className="navbar-item hover:underline">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
                                             strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -67,19 +67,35 @@ export default function RootLayout({ children }) {
                                         Leaderboard
                                     </a>
                                 </li>
-                                <li className={`ver-menu ${activeLink === '/app/cricket' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/cricket')}>
+                                <li className={`ver-menu ${activeLink === '/app/googlefit' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/googlefit')}>
                                     <a className="navbar-item hover:underline">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 407.871 407.871" fill="white" className="size-6">
+                                        <g>
+                                            <path d="M353.613,151.529l-10.036-19.16c-1.534-2.918-5.126-4.046-8.055-2.518l-49.561,25.944l-25.95-49.561
+                                            c-0.734-1.402-1.999-2.458-3.509-2.93c-0.782-0.245-1.593-0.322-2.393-0.239l-0.871-0.263
+                                            c18.849-8.348,32.048-27.197,32.048-49.101C285.286,24.094,261.198,0,231.584,0s-53.702,24.094-53.702,53.702
+                                            c0,10.782,3.222,20.818,8.718,29.244l-5.096-1.522c-1.104-0.764-2.423-1.164-3.92-1.05l-0.042,0.006
+                                            c-0.656-0.066-1.313,0.006-1.939,0.167l-81.251,7.071c-3.282,0.286-5.71,3.18-5.424,6.462l7.244,83.22
+                                            c0.131,1.575,0.889,3.031,2.106,4.051c1.211,1.014,2.739,1.516,4.356,1.372l21.546-1.874c3.282-0.286,5.71-3.18,5.424-6.462
+                                            l-4.845-55.725l36.481-3.174l-46.034,115.704c-0.268,0.662-0.406,1.366-0.424,2.076l-1.408,65.761H59.547
+                                            c-3.3,0-5.967,2.667-5.967,5.967v35.055c0,3.3,2.667,5.967,5.967,5.967h98.453c3.3,0,5.967-2.667,5.967-5.967v-81.824
+                                            L276.234,405.52c1.169,1.539,2.948,2.351,4.75,2.351c1.259,0,2.53-0.394,3.61-1.223l30.849-23.509
+                                            c1.259-0.955,2.082-2.375,2.297-3.944c0.209-1.569-0.209-3.156-1.17-4.415l-105.9-138.944l35.515-83.667l22.847,43.642
+                                            c1.533,2.918,5.126,4.052,8.055,2.518l74.007-38.749c1.402-0.734,2.452-1.993,2.924-3.503
+                                            C354.49,154.566,354.347,152.931,353.613,151.529z"/>
+                                        </g>
                                         </svg>
-                                        Products
+                                        stats
                                     </a>
                                 </li>
                                 <li className={`ver-menu ${activeLink === '/app/steppe' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/steppe')}>
                                     <a className="navbar-item hover:underline">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="size-6">
+                                            <g stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M12 3H11V1H13V3H12C7.6 3 4 6.6 4 11C4 13.2 4.9 15.2 6.4 16.6L5.5 20L10 18.5C10.6 18.7 11.3 18.8 12 18.8C16.4 18.8 20 15.2 20 11C20 6.6 16.4 3 12 3Z"/>
+                                                <circle cx="12" cy="10" r="2"/>
+                                                <path d="M9 14C10.5 15.5 13.5 15.5 15 14"/>
+                                            </g>
                                         </svg>
                                         steppe
                                     </a>
@@ -103,13 +119,7 @@ export default function RootLayout({ children }) {
                                         </a>
                                     )}
                                 </li>
-                                <li><button onClick={async () => {
-               
-                document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-                window.location.href = '/'; // Redirect to login page after logout
-            }} style={{ marginTop: '20px', padding: '10px 20px', fontSize: 'large' }}>
-                Logout
-            </button></li>
+                                
                             </ul>
                         </div>
                     </div>
