@@ -467,7 +467,7 @@ main{
   align-items: center;
 }
 .ver-menu{
-  
+  width:10vw;
   padding: 5px;
   border: 3px outset rgb(88, 92, 218);
   background-color:rgb(88, 92, 218);
@@ -528,6 +528,9 @@ header{
     display: flex;
     flex-direction: row;
     width:100%;
+  }
+  .open {
+    width:100vw;
   }
 
   .tab-menu {
