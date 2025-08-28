@@ -8,9 +8,11 @@ export async function GET(request) {
   });
 }
 export  async function POST(request, res) {
- 
-  const token =  request.cookies.getAll()[0].value
-   console.log(token)
+
+  const cookies = request.cookies.getAll();
+  const tokenCookie = cookies.find(c => c.name === 'token');
+  const token = tokenCookie ? tokenCookie.value : null;
+  console.log(token)
 
   if (!token) return new Response(JSON.stringify({ error: 'Invalid token' }), {
     status: 401,

@@ -8,7 +8,8 @@ db.exec(`
     username TEXT UNIQUE,
     balance INTEGER DEFAULT 0,
     transactions TEXT,
-    password TEXT
+    password TEXT,
+    stepcount INTEGER DEFAULT 0
   )
 `);
 
