@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
     };
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div style={{ padding: '20px', maxHeight: '100vh', overflowY: 'none' }}>
             <header style={{ fontWeight:"bold",display: 'flex', marginBottom: '20px' }}>
                 <img className="logo" src="/longlogo.png" alt="Logo" style={{ borderRadius:'1vh', marginRight: '10px' }} />
                 <button style={{borderRadius:'0.5vh'}} className="hamburger-menu" onClick={toggleMenu}>
@@ -75,13 +75,13 @@ export default function RootLayout({ children }) {
                                         Products
                                     </a>
                                 </li>
-                                <li className={`ver-menu ${activeLink === '/app/soccer' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/soccer')}>
+                                <li className={`ver-menu ${activeLink === '/app/steppe' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/steppe')}>
                                     <a className="navbar-item hover:underline">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
                                         </svg>
-                                        Services
+                                        steppe
                                     </a>
                                 </li>
                                 <li className={`last ver-menu ${activeLink === '/app/profile' ? 'active' : ''}`} >
@@ -115,7 +115,7 @@ export default function RootLayout({ children }) {
                     </div>
                 </nav>
             </header>
-            <div style={{ display: 'flex', minHeight: '100vh' }}>
+            <div style={{ display: 'flex', minHeight: '79vh' }}>
                 <div style={{borderRadius:'2vh', boxShadow:" 0 0 20px 3px #ff00ff", width: '100%', backgroundColor: '#f0f0f0', padding: '10px' }}>
                     <Suspense fallback={<Loading/>}>
                         {children}

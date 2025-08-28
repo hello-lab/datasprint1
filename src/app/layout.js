@@ -6,11 +6,11 @@ import { Toaster } from 'react-hot-toast';
 import Loading from './loading.js'
 
 export default function RootLayout({ children }) {
-  const [load, setLoad] = useState(false);
+  const [load, setLoad] = useState(true);
 
   useEffect(() => {
     const img = new Image();
-    img.src = '/background1.png';
+   // img.src = '/background1.png';
     img.onload = () => setLoad(true);
   }, []);
 
