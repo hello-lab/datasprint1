@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
 
-export default function AdminPanel() {
+export default function AdminDashboard() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingUser, setEditingUser] = useState(null);
@@ -17,9 +17,15 @@ export default function AdminPanel() {
     try {
       const response = await fetch('/api/admin/users');
       const data = await response.json();
+      
       if (data.success) {
         setUsers(data.users);
       } else {
+        if (response.status === 401) {
+          // Redirect to admin login if unauthorized
+          window.location.href = '/admin';
+          return;
+        }
         toast.error('Failed to fetch user data');
       }
     } catch (error) {
@@ -27,6 +33,22 @@ export default function AdminPanel() {
       console.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('/api/admin/auth/logout', {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        toast.success('Logged out successfully');
+        window.location.href = '/admin';
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast.error('Logout failed');
     }
   };
 
@@ -57,6 +79,10 @@ export default function AdminPanel() {
         setEditingUser(null);
         fetchUsers();
       } else {
+        if (response.status === 401) {
+          window.location.href = '/admin';
+          return;
+        }
         toast.error(data.error || 'Failed to update user');
       }
     } catch (error) {
@@ -101,21 +127,39 @@ export default function AdminPanel() {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="text-xl">Loading admin panel...</div>
+        <div className="text-xl">Loading admin dashboard...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50">
       <Toaster position="top-right" />
       
-      <div className="max-w-7xl mx-auto">
+      {/* Admin Header */}
+      <header className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+              <p className="text-gray-600">Administrative Control Panel</p>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 flex items-center gap-2"
+            >
+              🚪 Logout
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto p-6">
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="mb-6">
             <div className="flex justify-between items-center mb-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Panel</h1>
+                <h2 className="text-xl font-bold text-gray-900 mb-2">User Management</h2>
                 <p className="text-gray-600">Manage users and view participation data</p>
               </div>
               <button
