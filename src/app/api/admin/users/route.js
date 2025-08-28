@@ -1,9 +1,29 @@
 import db from '../../../db/db';
 import stepDb from '../../../db/stepDb';
 import transactionDb from '../../../db/transactionDb';
+import { verifyAdminToken } from '../../../utils/adminAuth';
+
+// Middleware to check admin authentication
+function checkAdminAuth(request) {
+  const adminToken = request.cookies.get('admin_token');
+  
+  if (!adminToken) {
+    throw new Error('Admin authentication required');
+  }
+
+  try {
+    const admin = verifyAdminToken(adminToken.value);
+    return admin;
+  } catch (error) {
+    throw new Error('Invalid admin token');
+  }
+}
 
 export async function GET(request) {
   try {
+    // Check admin authentication
+    checkAdminAuth(request);
+    
     // Get all users
     const users = db.prepare('SELECT id, username, balance, stepcount FROM users').all();
     
@@ -54,6 +74,19 @@ export async function GET(request) {
 
   } catch (error) {
     console.error('Error fetching admin data:', error);
+    
+    // Check if it's an authentication error
+    if (error.message === 'Admin authentication required' || error.message === 'Invalid admin token') {
+      return new Response(JSON.stringify({
+        success: false,
+        error: 'Unauthorized',
+        message: error.message
+      }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    
     return new Response(JSON.stringify({
       success: false,
       error: 'Internal server error',
@@ -67,6 +100,9 @@ export async function GET(request) {
 
 export async function PUT(request) {
   try {
+    // Check admin authentication
+    checkAdminAuth(request);
+    
     const { id, updates } = await request.json();
     
     if (!id || !updates) {
@@ -129,6 +165,19 @@ export async function PUT(request) {
 
   } catch (error) {
     console.error('Error updating user:', error);
+    
+    // Check if it's an authentication error
+    if (error.message === 'Admin authentication required' || error.message === 'Invalid admin token') {
+      return new Response(JSON.stringify({
+        success: false,
+        error: 'Unauthorized',
+        message: error.message
+      }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    
     return new Response(JSON.stringify({
       success: false,
       error: 'Internal server error',
