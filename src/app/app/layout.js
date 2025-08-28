@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
                     <span className="hamburger-icon"></span>
                 </button>
             
-                <nav className={` navbar ${menuOpen ? 'open' : ''}`} style={{ alignItems: 'center', width: '100%', padding: '1px', justifyContent: 'center' }}>
+                <nav className={` navbar  ${menuOpen ? 'open' : ''}`} style={{ alignItems: 'center', width: '100%', padding: '1px', justifyContent: 'center' }}>
                     <div className="menu-wrap">
                         <div className="full-wrap">
                             <ul className="tab-menu flex list-none p-1">

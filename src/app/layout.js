@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
           <Loading/>
         </div>
         <div className="body"
-         style={{ backgroundImage: `url(/background1.png)`, display: load ? 'block' : 'none' }}>
+         style={{ background: 'linear-gradient(135deg, #2563eb, #3b82f6)', display: load ? 'block' : 'none' }}>
         <SessionProvider>
           <Toaster />
           {children}
