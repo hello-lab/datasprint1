@@ -24,8 +24,10 @@ export default function RootLayout({ children }) {
         </div>
         <div className="body"
          style={{ backgroundImage: `url(/background1.png)`, display: load ? 'block' : 'none' }}>
-        <Toaster />
-        {children}
+        <SessionProvider>
+          <Toaster />
+          {children}
+        </SessionProvider>
         </div>
       </body>
     </html>
