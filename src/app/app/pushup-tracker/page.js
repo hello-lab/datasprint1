@@ -237,7 +237,7 @@ export default function PushupPage() {
       color: "#000", // Set all font to black
       fontFamily: "system-ui, Arial, sans-serif"
     }}>
-      <Toaster position="top-center" />
+      <Toaster position="top-right" />
       <h1 style={{ color: "#000" }}>Pushup AI Tracker (PoseNet)</h1>
       <p style={{ color: "#000" }}>{status}</p>
       <div style={{ position: "relative", display: "inline-block" }}>
