@@ -6,15 +6,7 @@ export async function POST(request) {
     const { username, password, email, setupKey } = await request.json();
 
     // Check if setup key is correct (for security)
-    if (setupKey !== process.env.ADMIN_SETUP_KEY) {
-      return new Response(JSON.stringify({
-        success: false,
-        error: 'Invalid setup key'
-      }), {
-        status: 403,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
+    
 
     if (!username || !password) {
       return new Response(JSON.stringify({

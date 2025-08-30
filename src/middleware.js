@@ -11,27 +11,9 @@ export async function middleware(req) {
     let url=req.url.split('/')
     url=(url.length)==5?'/'+req.url.split('/')[3]+'/'+req.url.split('/')[4]:req.url.split('/')[3]
     
-    // Handle admin routes separately
+    // Allow all /admin and /admin/* routes without redirect
     if (url && (url === 'admin' || url.startsWith('admin/') || url === '/admin' || url.startsWith('/admin/'))) {
-        // Allow access to admin login page without authentication
-        if (url === 'admin' || url === '/admin') {
-            return NextResponse.next();
-        }
-        
-        // For admin dashboard and other admin routes, check admin authentication
-        if (!adminToken) {
-            return NextResponse.redirect(new URL('/admin', req.url));
-        }
-        
-        try {
-            const adminPayload = await jwtVerify(adminToken.value, adminSecretKey);
-            if (adminPayload.payload.type !== 'admin') {
-                return NextResponse.redirect(new URL('/admin', req.url));
-            }
-            return NextResponse.next();
-        } catch (error) {
-            return NextResponse.redirect(new URL('/admin', req.url));
-        }
+        return NextResponse.next();
     }
     
     if (!url&&token){

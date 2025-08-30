@@ -88,6 +88,11 @@ export default function RootLayout({ children }) {
                                         stats
                                     </a>
                                 </li>
+                                <li className={`ver-menu ${activeLink === '/app/pushup-tracker' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/pushup-tracker')}>
+                                    <a className="navbar-item hover:underline">
+                                        pushups
+                                    </a>
+                                </li>
                                 <li className={`ver-menu ${activeLink === '/app/steppe' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/steppe')}>
                                     <a className="navbar-item hover:underline">
                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="size-6">

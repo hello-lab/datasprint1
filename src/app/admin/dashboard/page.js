@@ -17,15 +17,9 @@ export default function AdminDashboard() {
     try {
       const response = await fetch('/api/admin/users');
       const data = await response.json();
-      
       if (data.success) {
         setUsers(data.users);
       } else {
-        if (response.status === 401) {
-          // Redirect to admin login if unauthorized
-          window.location.href = '/admin';
-          return;
-        }
         toast.error('Failed to fetch user data');
       }
     } catch (error) {
@@ -79,10 +73,6 @@ export default function AdminDashboard() {
         setEditingUser(null);
         fetchUsers();
       } else {
-        if (response.status === 401) {
-          window.location.href = '/admin';
-          return;
-        }
         toast.error(data.error || 'Failed to update user');
       }
     } catch (error) {
