@@ -491,9 +491,22 @@ main{
 .header{
   align-items: center;
 }
+
+.exercise-cam{
+  display:flex;
+  flex-direction:row;
+  list-style:none;
+  justify-content:space-evenly;
+}
 @media (max-width: 1090px) {
+  .exercise-cam{
+    flex-direction:column;
+  }
   .ver-menu{
     border-radius: 2ch;
+    min-width:90vw;
+    display:flex;
+    justify-items: center;
   }
   .logo{
     width: 50vw;

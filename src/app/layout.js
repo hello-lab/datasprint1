@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
         <div className="body"
          style={{ background: 'linear-gradient(135deg, #2563eb, #3b82f6)', display: load ? 'block' : 'none' }}>
         <SessionProvider>
-          <Toaster />
+          <Toaster position="top-right"  />
           {children}
         </SessionProvider>
         </div>
