@@ -13,7 +13,7 @@ const GeminiChatbot = () => {
             const res = await fetch('/api/gemini', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: `${userMessage} (you are steppe, a corporate fitness assisstant to help the employees build teamwork, morale and health)` })
+                body: JSON.stringify({ message: `${userMessage} (you are steppe, a corporate fitness assisstant to help the employees build teamwork, morale and health) (remove all markdown)` })
             });
             const data = await res.json();
             return data.reply || 'No response.';

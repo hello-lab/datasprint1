@@ -88,7 +88,7 @@ export default function RootLayout({ children }) {
                                         stats
                                     </a>
                                 </li>
-                                <li className={`ver-menu ${activeLink === '/app/pushup-tracker' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/pushup-tracker')}>
+                                <li className={`ver-menu ${activeLink === '/app/exercise' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/exercise')}>
                                     <a className="navbar-item hover:underline">
                                         <svg viewBox="0 0 94.5 94.5" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
                                             <g fill="white">
@@ -106,7 +106,7 @@ export default function RootLayout({ children }) {
                                             </svg>
 
 
-                                        pushups
+                                        exercise
                                     </a>
                                 </li>
                                 <li className={`ver-menu ${activeLink === '/app/steppe' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/steppe')}>
