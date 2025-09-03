@@ -44,7 +44,7 @@ textarea {
 body {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   background-size: 100vw 100vh;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-attachment: fixed;
   margin:0;
   font-size: 16px;
@@ -282,11 +282,7 @@ main{
   justify-content: center;
 }
 
-.tile img {
-  max-height: 25vh;
-  width: auto;
-  border-radius: 5px;
-}
+
 
 .sky {
   position: relative;
