@@ -55,9 +55,9 @@ const ProfilePage = () => {
                 <div className="flex flex-col sm:flex-row gap-4 mb-4 w-full justify-center">
                     <div className="flex-1 flex flex-col items-center bg-gradient-to-br from-blue-100 to-blue-50 rounded-xl px-4 py-3 text-center shadow hover:shadow-lg transition-shadow">
                         <div className="flex items-center justify-center gap-2 text-lg text-blue-600 font-medium mb-1">
-                            <FaRupeeSign className="inline-block text-blue-500 text-xl" /> Balance
+                            {/*<FaRupeeSign className="inline-block text-blue-500 text-xl" /><img src="/coin.png" alt="Rupee" height="32px" width="32px"/>*/} Balance
                         </div>
-                        <div className="text-2xl font-bold text-blue-800">₹ {user.balance}</div>
+                        <div className="text-2xl font-bold text-blue-800"><img src="/coin.png" alt="Rupee" height="30px" width="30px" className='inline-block'/>  {user.balance}</div>
                     </div>
                     <div className="flex-1 flex flex-col items-center bg-gradient-to-br from-green-100 to-green-50 rounded-xl px-4 py-3 text-center shadow hover:shadow-lg transition-shadow">
                         <div className="flex items-center justify-center gap-2 text-lg text-green-600 font-medium mb-1">
