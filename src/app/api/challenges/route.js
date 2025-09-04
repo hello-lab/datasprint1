@@ -1,4 +1,3 @@
-import { user } from '@heroui/react';
 import  challengesDb  from '../../db/challengesDb';
 
 export async function POST(request) {
