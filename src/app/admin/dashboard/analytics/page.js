@@ -1,7 +1,7 @@
 "use client"
-
 import { useState, useEffect } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
+import Link from 'next/link';
 
 export default function AdminDashboard() {
   const [users, setUsers] = useState([]);
@@ -159,6 +159,39 @@ export default function AdminDashboard() {
               ₹{users.reduce((sum, user) => sum + user.total_withdrawals, 0).toLocaleString()}
             </p>
           </div>
+        </div>
+
+        {/* User Table */}
+        <div className="mt-8">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">User Management</h2>
+          <table className="min-w-full bg-white rounded-lg shadow">
+            <thead>
+              <tr>
+                <th className="py-2 px-4">ID</th>
+                <th className="py-2 px-4">Username</th>
+                <th className="py-2 px-4">Email</th>
+                <th className="py-2 px-4">Balance</th>
+                <th className="py-2 px-4">Team</th>
+                {/* ...other headers... */}
+              </tr>
+            </thead>
+            <tbody>
+              {users.map(user => (
+                <tr key={user.id}>
+                  <td className="py-2 px-4">{user.id}</td>
+                  <td className="py-2 px-4">
+                    <Link href={`/app/users/${encodeURIComponent(user.username)}`} className="text-blue-600 hover:underline font-semibold">
+                      {user.username}
+                    </Link>
+                  </td>
+                  <td className="py-2 px-4">{user.user_email || 'N/A'}</td>
+                  <td className="py-2 px-4">{user.balance}</td>
+                  <td className="py-2 px-4">{user.team || 'N/A'}</td>
+                  {/* ...other cells... */}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

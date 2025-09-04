@@ -26,7 +26,7 @@ export default function ProductDetailPage() {
     const type = "withdraw";
     const remarks = `Buy ${product.product_name || product.name}`;
     try {
-      const res = await fetch('/api/transaction', {
+      const res = await fetch('/api/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user, amount: price, type, remarks }),
@@ -38,6 +38,7 @@ export default function ProductDetailPage() {
         toast.error('fooooff');
       }
     } catch (err) {
+      console.error(err);
       toast.error('Transaction failed');
     }
   };
