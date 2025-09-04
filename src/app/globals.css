@@ -121,7 +121,13 @@ body {
 
  
 }
-
+.profile_tabs{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2ch;
+  justify-content: center;
+  max-width: 100vw;
+}
 
 @keyframes rott {
   0% {
@@ -495,6 +501,10 @@ main{
   justify-content:space-evenly;
 }
 @media (max-width: 1090px) {
+  .profile_tabs{
+    flex-direction: column;
+    transform: translateY(100%);
+  }
   .exercise-cam{
     flex-direction:column;
   }

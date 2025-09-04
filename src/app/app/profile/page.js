@@ -8,6 +8,9 @@ const ProfilePage = () => {
     const [transactions, setTransactions] = useState([]);
     const [challenges, setChallenges] = useState([]);
     const [claimedChallenges, setClaimedChallenges] = useState([]);
+    const [orders, setOrders] = useState([]);
+    const [activeTab, setActiveTab] = useState('challenges');
+    const [isDropdown, setIsDropdown] = useState(false);
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -61,8 +64,23 @@ const ProfilePage = () => {
         const data = await res.json();
         if (data.user) {
           await fetchChallenges(data.user.username, data.user.team);
+          // Fetch orders for user
+          const orderRes = await fetch(`/api/order?username=${encodeURIComponent(data.user.username)}`);
+          if (orderRes.ok) {
+            const orderData = await orderRes.json();
+            setOrders(orderData.orders || []);
+          }
         }
       })();
+    }, []);
+
+    useEffect(() => {
+      function handleResize() {
+        setIsDropdown(window.innerWidth <= 1090);
+      }
+      handleResize();
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     if (!user) {
@@ -82,7 +100,7 @@ const ProfilePage = () => {
         className="w-28 h-28 rounded-full shadow-xl border-4 border-indigo-300 mb-4 object-cover hover:shadow-2xl transition-shadow duration-300"
       />
       <h1 className="text-3xl sm:text-4xl font-extrabold text-indigo-800 mb-2 tracking-tight drop-shadow">{user.username}</h1>
-      <div style={{ width: '100%', display: 'grid', gridTemplateColumns:"repeat(3,1fr)" , gridTemplateRows:"repeat(2,1fr)",gap:'16px'}}>
+      <div style={{ width: '100%', display: 'flex', flexDirection:"row",flexWrap:"wrap",gap:'16px'}}>
         <div style={{ gridColumn: "span 2" }} className="flex-1 flex flex-col items-center bg-gradient-to-br from-yellow-100 to-yellow-50 rounded-xl px-4 py-3 text-center shadow hover:shadow-lg transition-shadow">
           <div  className="flex items-center justify-center gap-2 text-lg text-yellow-600 font-medium mb-1">
             Department
@@ -97,7 +115,7 @@ const ProfilePage = () => {
         </div>
         <div className="flex-1 flex flex-col items-center bg-gradient-to-br from-green-100 to-green-50 rounded-xl px-4 py-3 text-center shadow hover:shadow-lg transition-shadow">
           <div className="flex items-center justify-center gap-2 text-lg text-green-600 font-medium mb-1">
-            <FaWalking className="inline-block text-green-500 text-xl" /> Step Count
+            <FaWalking className="inline-block text-green-500 text-xl" /> Steps
           </div>
           <div className="text-2xl font-bold text-green-800">{user.stepcount ?? 0}</div>
         </div>
@@ -117,58 +135,65 @@ const ProfilePage = () => {
       <button
         onClick={async () => {
           document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-          window.location.href = '/';
-        }}
-        className="mt-2 px-6 py-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-lg font-semibold shadow flex items-center gap-2 transition-all duration-200"
-      >
-        <FaSignOutAlt className="inline-block text-lg" /> Logout
-      </button>
-    </div>
-    <div className="w-full max-w-3xl bg-white/90 rounded-3xl shadow-xl p-4 sm:p-8">
-      <h2 className="text-2xl sm:text-3xl font-bold text-indigo-800 mb-4">Transaction History</h2>
-      {transactions.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-sm sm:text-base text-gray-700">
-            <thead>
-              <tr className="bg-gradient-to-r from-indigo-100 to-blue-100">
-                <th className="py-2 px-4 font-semibold text-indigo-700">#</th>
-                <th className="py-2 px-4 font-semibold text-blue-700">Amount</th>
-                <th className="py-2 px-4 font-semibold text-green-700">Type</th>
-                <th className="py-2 px-4 font-semibold text-indigo-700">Date</th>
-                <th className="py-2 px-4 font-semibold text-pink-700">Remarks</th>
-              </tr>
-            </thead>
-            <tbody>
-              {transactions.map((transaction, index) => (
-                <tr
-                  key={index}
-                  className={`transition-colors duration-200 ${
-                    transaction.type === 'deposit'
-                      ? 'bg-green-50 hover:bg-green-100'
-                      : 'bg-red-50 hover:bg-red-100'
-                  }`}
+            window.location.href = '/';
+            }}
+            className="mt-2 px-6 py-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-lg font-semibold shadow flex items-center gap-2 transition-all duration-200"
+            >
+            <FaSignOutAlt className="inline-block text-lg" /> Logout
+            </button>
+          </div>
+          <div className="w-full max-w-3xl mx-auto">
+            {isDropdown ? (
+              <div className="mb-6 flex justify-center">
+                <select
+                  className="px-4 py-2 rounded-2xl border border-gray-300 text-lg font-bold bg-white shadow focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                  value={activeTab}
+                  onChange={e => setActiveTab(e.target.value)}
+                  style={{
+                    backgroundColor: activeTab === 'challenges' ? '#c7d2fe' : activeTab === 'transactions' ? '#c7d2fe' : activeTab === 'orders' ? '#c7d2fe' : 'white',
+                    color: '#3730a3',
+                    fontWeight: 'bold',
+                    opacity: 1,
+                    borderRadius: '1.5rem'
+                  }}
                 >
-                  <td className="py-2 px-4 font-semibold">{index + 1}</td>
-                  <td className="py-2 px-4">{transaction.amount}</td>
-                  <td className={`py-2 px-4 capitalize font-semibold ${transaction.type === 'deposit' ? 'text-green-700' : 'text-red-700'}`}>{transaction.type}</td>
-                  <td className="py-2 px-4">{new Date(transaction.date).toLocaleString()}</td>
-                  <td className="py-2 px-4">{transaction.remarks}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <div className="text-gray-500 text-center py-8">No transactions available.</div>
-      )}
-        <div className="mt-10">
+                  <option value="challenges" style={{ background: '#c7d2fe', color: '#3730a3', fontWeight: 'bold' }}>Challenges</option>
+                  <option value="transactions" style={{ background: '#c7d2fe', color: '#3730a3', fontWeight: 'bold' }}>Transactions</option>
+                  <option value="orders" style={{ background: '#c7d2fe', color: '#3730a3', fontWeight: 'bold' }}>Orders</option>
+                </select>
+              </div>
+            ) : (
+              <div className="flex gap-4 justify-center" style={{transform:'translateY(40%)' }}>
+                <button
+                  className={`px-6 py-2 rounded-t-lg font-bold transition-opacity duration-200 border-b-4 ${activeTab === 'challenges' ? 'opacity-100 bg-indigo-200 text-indigo-800 border-indigo-500' : 'opacity-50 bg-gray-100 text-indigo-400 border-transparent'}`}
+                  onClick={() => setActiveTab('challenges')}
+                >
+                  Challenges
+                </button>
+                <button
+                  className={`px-6 py-2 rounded-t-lg font-bold transition-opacity duration-200 border-b-4 ${activeTab === 'transactions' ? 'opacity-100 bg-indigo-200 text-indigo-800 border-indigo-500' : 'opacity-50 bg-gray-100 text-indigo-400 border-transparent'}`}
+                  onClick={() => setActiveTab('transactions')}
+                >
+                  Transactions
+                </button>
+                <button
+                  className={`px-6 py-2 rounded-t-lg font-bold transition-opacity duration-200 border-b-4 ${activeTab === 'orders' ? 'opacity-100 bg-indigo-200 text-indigo-800 border-indigo-500' : 'opacity-50 bg-gray-100 text-indigo-400 border-transparent'}`}
+                  onClick={() => setActiveTab('orders')}
+                >
+                  Orders
+                </button>
+              </div>
+            )}
+            {/* Challenges Tab */}
+      {activeTab === 'challenges' && (
+        <div className="w-full max-w-3xl bg-white/90 rounded-3xl shadow-xl p-4 sm:p-8 mt-4">
           <h2 className="text-2xl sm:text-3xl font-bold text-indigo-800 mb-4">All Challenges</h2>
           {challenges.length === 0 ? (
             <div className="text-gray-500 text-center py-8">No challenges found.</div>
           ) : (
-            <ul>
+            <ul style={{ width: '100%', display: 'flex', flexDirection: 'row', gap: '16px', flexWrap: 'wrap' }}>
               {challenges.map((challenge) => (
-                  <li key={challenge.id || challenge.title} className="mb-4 p-4 rounded-xl shadow bg-gradient-to-br from-indigo-50 to-green-50">
+                  <li key={challenge.id || challenge.title} className="mb-4 p-4 rounded-xl shadow bg-gradient-to-br from-indigo-50 to-green-50" style={{width:"100%"}}>
                     <div className="font-bold text-lg text-indigo-700">{challenge.title}</div>
                     <div className="text-sm text-gray-700">Type: {challenge.type}</div>
                     <div className="text-sm text-gray-700">Target: {challenge.name}</div>
@@ -177,7 +202,7 @@ const ProfilePage = () => {
                     <div className="text-sm text-gray-700">Deadline: {challenge.deadline}</div>
 
                     {/* Progress Bars - only show if goal > 0 */}
-                    <div className="mt-4">
+                    <div className="w-full max-w-3xl bg-white/90 rounded-3xl shadow-xl p-4 sm:p-8 mt-4">
                       {challenge.steps > 0 && (
                         <div className="mb-2">
                           <div className="text-xs text-gray-600 mb-1">Steps Progress</div>
@@ -255,6 +280,67 @@ const ProfilePage = () => {
             </ul>
           )}
         </div>
+      )}
+      {/* Transactions Tab */}
+      {activeTab === 'transactions' && (
+        <div className="w-full max-w-3xl bg-white/90 rounded-3xl shadow-xl p-4 sm:p-8 mt-4">
+          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-800 mb-4">Transaction History</h2>
+          {transactions.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="min-w-full text-sm sm:text-base text-gray-700">
+                <thead>
+                  <tr className="bg-gradient-to-r from-indigo-100 to-blue-100">
+                    <th className="py-2 px-4 font-semibold text-indigo-700">#</th>
+                    <th className="py-2 px-4 font-semibold text-blue-700">Amount</th>
+                    <th className="py-2 px-4 font-semibold text-green-700">Type</th>
+                    <th className="py-2 px-4 font-semibold text-indigo-700">Date</th>
+                    <th className="py-2 px-4 font-semibold text-pink-700">Remarks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transactions.map((transaction, index) => (
+                    <tr
+                      key={index}
+                      className={`transition-colors duration-200 ${
+                        transaction.type === 'deposit'
+                          ? 'bg-green-50 hover:bg-green-100'
+                          : 'bg-red-50 hover:bg-red-100'
+                      }`}
+                    >
+                      <td className="py-2 px-4 font-semibold">{index + 1}</td>
+                      <td className="py-2 px-4">{transaction.amount}</td>
+                      <td className={`py-2 px-4 capitalize font-semibold ${transaction.type === 'deposit' ? 'text-green-700' : 'text-red-700'}`}>{transaction.type}</td>
+                      <td className="py-2 px-4">{new Date(transaction.date).toLocaleString()}</td>
+                      <td className="py-2 px-4">{transaction.remarks}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="text-gray-500 text-center py-8">No transactions available.</div>
+          )}
+        </div>
+      )}
+      {/* Orders Tab */}
+      {activeTab === 'orders' && (
+        <div className="w-full max-w-3xl bg-white/90 rounded-3xl shadow-xl p-4 sm:p-8 mt-4">
+          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-800 mb-4">Your Orders</h2>
+          {orders.length === 0 ? (
+            <div className="text-gray-500 text-center py-8">No orders found.</div>
+          ) : (
+            <ul style={{ width: '100%', display: 'flex', flexDirection: 'row', gap: '16px', flexWrap: 'wrap' }}>
+              {orders.map((order, idx) => (
+                <li key={order.id || idx} className="mb-4 p-4 rounded-xl shadow bg-gradient-to-br from-blue-50 to-green-50">
+                  <div className="font-bold text-lg text-blue-700">Order #{order.id}</div>
+                  <div className="text-sm text-gray-700">Username: {order.username}</div>
+                  <div className="text-sm text-gray-700">Order: {order.order}</div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   </div>
 )};
