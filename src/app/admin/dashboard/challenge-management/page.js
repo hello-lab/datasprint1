@@ -130,7 +130,7 @@ export default function AdminDashboard() {
                   if (!challengeTitle || !targetName || !deadline) {
                     toast.error('Please fill all required fields');
                     return;
-                  else if ((targetType === 'user' || targetType === 'team') && !targetName) {
+                  } else if ((targetType === 'user' || targetType === 'team') && !targetName) {
                     toast.error('Please select a target name');
                     return;
                   }
