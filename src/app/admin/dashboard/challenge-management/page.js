@@ -87,7 +87,7 @@ export default function AdminDashboard() {
   };
 
   const exportToCSV = () => {
-    const headers = ['ID', 'Username', 'Email', 'Balance', 'Max Steps', 'Days Logged', 'Total Transactions', 'Total Deposits', 'Total Withdrawals'];
+    const headers = ['ID', 'Username', 'Email', 'Balance', 'Max Steps', 'Days Logged', 'Total Transactions', 'Total Deposits', 'Total Withdrawals','Step Count','Squat Count','Pushup Count','Team'];
     const csvContent = [
       headers.join(','),
       ...users.map(user => [
@@ -99,7 +99,11 @@ export default function AdminDashboard() {
         user.days_logged,
         user.total_transactions,
         user.total_deposits,
-        user.total_withdrawals
+        user.total_withdrawals,
+        user.stepcount,
+        user.squatcount,
+        user.pushupcount,
+        user.team || 'N/A'
       ].join(','))
     ].join('\n');
 
@@ -125,23 +129,7 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-gray-50">
       <Toaster position="top-right" />
       
-      {/* Admin Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-              <p className="text-gray-600">Administrative Control Panel</p>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 flex items-center gap-2"
-            >
-              🚪 Logout
-            </button>
-          </div>
-        </div>
-      </header>
+      
 
       <div className="max-w-7xl mx-auto p-6">
         <div className="bg-white rounded-lg shadow-lg p-6">
@@ -236,7 +224,7 @@ export default function AdminDashboard() {
                       )}
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-900 border-b">
-                      {user.team || 'Not provided'}
+                      {user.team ||"N/A"}
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-900 border-b">
                       {editingUser === user.id ? (

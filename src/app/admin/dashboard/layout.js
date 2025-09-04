@@ -1,0 +1,140 @@
+"use client"
+import "./../../globals.css";
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { Toaster } from 'react-hot-toast';
+import Loading from './../../loading'
+import { Suspense } from 'react'
+import Cookies from 'js-cookie';
+
+export default function RootLayout({ children }) {
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [activeLink, setActiveLink] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const router = useRouter();
+ const handleLogout = async () => {
+    try {
+      const response = await fetch('/api/admin/auth/logout', {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        toast.success('Logged out successfully');
+        window.location.href = '/admin';
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast.error('Logout failed');
+    }
+  };
+    useEffect(() => {
+        setActiveLink(router.pathname);
+        const token = Cookies.get('token');
+        setIsLoggedIn(!!token);
+    }, [router.pathname]);
+
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
+
+    const handleLinkClick = (href) => {
+        setActiveLink(href);
+        setTimeout(() => {setActiveLink('');}, 100);
+        setMenuOpen(!menuOpen);
+        router.push(href);
+    };
+
+    return (
+        <div style={{ padding: '20px', maxHeight: '100vh', overflowY: 'none' }}>
+            <header className="gap-4" style={{ fontWeight:"bold",display: 'flex',  marginBottom: '20px' }}>
+                <img className="logo" src="/longlogo.png" alt="Logo" style={{ borderRadius:'1vh', maxWidth:'200px', maxHeight:'100px', marginRight: '0px'  }} />
+               
+
+            <div>
+              <h1 className="text-2xl font-bold text-gray-200 ">Admin Dashboard</h1>
+              <p className="text-gray-600">Administrative Control Panel</p>
+            </div>
+
+         
+       
+                
+                
+                <button style={{borderRadius:'0.5vh'}} className="hamburger-menu" onClick={toggleMenu}>
+                    <span className="hamburger-icon"></span>
+                </button>
+                
+            
+                <nav className={` navbar  ${menuOpen ? 'open' : ''}`} style={{ alignItems: 'center', width: '100%', padding: '1px', justifyContent: 'center' }}>
+                    <div className="menu-wrap">
+                        <div className="full-wrap">
+                            <ul className="tab-menu flex list-none p-1">
+                                <li className={` first ver-menu ${activeLink === '/admin/dashboard/user-management' ? 'active' : ''} ${menuOpen ? 'open' : ''}`} onClick={() => handleLinkClick('/admin/dashboard/user-management')}>
+                                    <a className="navbar-item hover:underline">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" />
+                                        </svg>
+                                        Users
+                                    </a>
+                                </li>
+                                <li className={`ver-menu ${activeLink === '/admin/dashboard/challenge-management' ? 'active' : ''}`} onClick={() => handleLinkClick('/admin/dashboard/challenge-management')}>
+                                    <a className="navbar-item hover:underline">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+                                            strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                        <path d="M15 21H9V12.6C9 12.2686 9.26863 12 9.6 12H14.4C14.7314 12 15 12.2686 15 12.6V21Z" 
+                                                strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M20.4 21H15V18.1C15 17.7686 15.2686 17.5 15.6 17.5H20.4C20.7314 17.5 21 17.7686 21 18.1V20.4C21 20.7314 20.7314 21 20.4 21Z" 
+                                                strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M9 21V16.1C9 15.7686 8.73137 15.5 8.4 15.5H3.6C3.26863 15.5 3 15.7686 3 16.1V20.4C3 20.7314 3.26863 21 3.6 21H9Z" 
+                                                strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M10.8056 5.11325L11.7147 3.1856C11.8314 2.93813 12.1686 2.93813 12.2853 3.1856L13.1944 5.11325L15.2275 5.42427C15.4884 5.46418 15.5923 5.79977 15.4035 5.99229L13.9326 7.4917L14.2797 9.60999C14.3243 9.88202 14.0515 10.0895 13.8181 9.96099L12 8.96031L10.1819 9.96099C9.94851 10.0895 9.67568 9.88202 9.72026 9.60999L10.0674 7.4917L8.59651 5.99229C8.40766 5.79977 8.51163 5.46418 8.77248 5.42427L10.8056 5.11325Z" 
+                                                strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+
+                                        Challenges
+                                    </a>
+                                </li>
+                                <li className={`ver-menu last ${activeLink === '/admin/dashboard/analytics' ? 'active' : ''}`} onClick={() => handleLinkClick('/admin/dashboard/analytics')}>
+                                    <a className="navbar-item hover:underline">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 407.871 407.871" fill="white" className="size-6">
+                                        <g>
+                                            <path d="M353.613,151.529l-10.036-19.16c-1.534-2.918-5.126-4.046-8.055-2.518l-49.561,25.944l-25.95-49.561
+                                            c-0.734-1.402-1.999-2.458-3.509-2.93c-0.782-0.245-1.593-0.322-2.393-0.239l-0.871-0.263
+                                            c18.849-8.348,32.048-27.197,32.048-49.101C285.286,24.094,261.198,0,231.584,0s-53.702,24.094-53.702,53.702
+                                            c0,10.782,3.222,20.818,8.718,29.244l-5.096-1.522c-1.104-0.764-2.423-1.164-3.92-1.05l-0.042,0.006
+                                            c-0.656-0.066-1.313,0.006-1.939,0.167l-81.251,7.071c-3.282,0.286-5.71,3.18-5.424,6.462l7.244,83.22
+                                            c0.131,1.575,0.889,3.031,2.106,4.051c1.211,1.014,2.739,1.516,4.356,1.372l21.546-1.874c3.282-0.286,5.71-3.18,5.424-6.462
+                                            l-4.845-55.725l36.481-3.174l-46.034,115.704c-0.268,0.662-0.406,1.366-0.424,2.076l-1.408,65.761H59.547
+                                            c-3.3,0-5.967,2.667-5.967,5.967v35.055c0,3.3,2.667,5.967,5.967,5.967h98.453c3.3,0,5.967-2.667,5.967-5.967v-81.824
+                                            L276.234,405.52c1.169,1.539,2.948,2.351,4.75,2.351c1.259,0,2.53-0.394,3.61-1.223l30.849-23.509
+                                            c1.259-0.955,2.082-2.375,2.297-3.944c0.209-1.569-0.209-3.156-1.17-4.415l-105.9-138.944l35.515-83.667l22.847,43.642
+                                            c1.533,2.918,5.126,4.052,8.055,2.518l74.007-38.749c1.402-0.734,2.452-1.993,2.924-3.503
+                                            C354.49,154.566,354.347,152.931,353.613,151.529z"/>
+                                        </g>
+                                        </svg>
+                                        Analytics
+                                    </a>
+                                </li>
+                                
+                                
+                            </ul>
+                        </div>
+                    </div>
+                               
+                </nav>
+                 <button
+              onClick={handleLogout}
+              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 flex items-center gap-2"
+            >
+              🚪 Logout
+            </button>
+            </header>
+            <div style={{ display: 'flex', minHeight: '79vh' }}>
+                <div style={{borderRadius:'2vh', boxShadow:" 0 0 20px 3px #ff00ff", width: '100%', backgroundColor: '#f0f0f0', padding: '10px' }}>
+                    <Suspense fallback={<Loading/>}>
+                        {children}
+                    </Suspense>
+                </div>
+            </div>
+        </div>
+    );
+}

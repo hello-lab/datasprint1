@@ -12,7 +12,7 @@ export default function AdminLogin() {
     setLoading(true);
     if (credentials.username === 'admin' && credentials.password === 'admin') {
       toast.success('Login successful!');
-      window.location.href = '/admin/dashboard';
+      window.location.href = '/admin/dashboard/user-management';
     } else {
       toast.error('Invalid username or password');
     }

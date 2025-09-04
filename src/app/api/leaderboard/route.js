@@ -18,7 +18,14 @@ export async function GET(request) {
       ORDER BY steps DESC
       LIMIT 50
     `);
-    
+    const usersRes = await fetch(`${request.nextUrl.origin}/api/admin/users`);
+    const usersJson = await usersRes.json();
+    const users = usersJson.users || [];
+
+    const userTeamMap = {};
+    users.forEach(user => {
+      userTeamMap[user.user_name] = user.team_name;
+    });
     const leaderboardData = leaderboardQuery.all(today);
     
     // Add ranking to the data
