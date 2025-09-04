@@ -1,3 +1,4 @@
+import { user } from '@heroui/react';
 import  challengesDb  from '../../db/challengesDb';
 
 export async function POST(request) {
@@ -29,10 +30,31 @@ export async function POST(request) {
 
 export async function GET(request) {
     try {
-        const stmt = challengesDb.prepare('SELECT * FROM challenges');
-        const challenges = stmt.all();
+        const { searchParams } = new URL(request.url);
+        const username = searchParams.get('username');
+        const teamname = searchParams.get('teamname');
+        console.log(username, teamname);
+
+        let challenges = [];
+
+        if (!username && !teamname) {
+            // Return all challenges if no arguments
+            const stmt = challengesDb.prepare('SELECT * FROM challenges');
+            challenges = stmt.all();
+        } else {
+            const stmtUser = challengesDb.prepare(`
+                SELECT * FROM challenges
+                WHERE name = ?
+            `);
+            challenges = challenges.concat(stmtUser.all(username));
+            challenges = challenges.concat(stmtUser.all(teamname));
+            challenges = challenges.concat(stmtUser.all('all'));
+
+            //challenges = stmt.all(username, teamname);
+        }
         return new Response(JSON.stringify(challenges), { status: 200 });
-    } catch (error) {
+    }
+    catch (error) {
         return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });
     }
 }

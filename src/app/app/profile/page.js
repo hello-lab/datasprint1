@@ -6,6 +6,8 @@ import { FaRupeeSign, FaWalking, FaSignOutAlt } from 'react-icons/fa';
 const ProfilePage = () => {
     const [user, setUser] = useState(null);
     const [transactions, setTransactions] = useState([]);
+    const [challenges, setChallenges] = useState([]);
+    const [claimedChallenges, setClaimedChallenges] = useState([]);
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -31,8 +33,36 @@ const ProfilePage = () => {
             setTransactions(data.trans.reverse());
         };
 
+      const fetchChallenges = async (username, teamname) => {
+        try {
+          const params = new URLSearchParams();
+          if (username) params.append('username', username);
+          if (teamname) params.append('teamname', teamname);
+          const res = await fetch(`/api/challenges?${params.toString()}`);
+          if (res.ok) {
+            const data = await res.json();
+            console.log(data);
+            setChallenges(data);
+          }
+        } catch (err) {
+          setChallenges([]);
+        }
+      };
+
         fetchProfile();
         fetchTransactions();
+      // Wait for user to be fetched, then fetch challenges for user and team
+      (async () => {
+        const res = await fetch('/api/auth/profile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: 'value' })
+        });
+        const data = await res.json();
+        if (data.user) {
+          await fetchChallenges(data.user.username, data.user.team);
+        }
+      })();
     }, []);
 
     if (!user) {
@@ -131,6 +161,100 @@ const ProfilePage = () => {
       ) : (
         <div className="text-gray-500 text-center py-8">No transactions available.</div>
       )}
+        <div className="mt-10">
+          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-800 mb-4">All Challenges</h2>
+          {challenges.length === 0 ? (
+            <div className="text-gray-500 text-center py-8">No challenges found.</div>
+          ) : (
+            <ul>
+              {challenges.map((challenge) => (
+                  <li key={challenge.id || challenge.title} className="mb-4 p-4 rounded-xl shadow bg-gradient-to-br from-indigo-50 to-green-50">
+                    <div className="font-bold text-lg text-indigo-700">{challenge.title}</div>
+                    <div className="text-sm text-gray-700">Type: {challenge.type}</div>
+                    <div className="text-sm text-gray-700">Target: {challenge.name}</div>
+                    <div className="text-sm text-gray-700">Steps: {challenge.steps} | Squats: {challenge.squats} | Pushups: {challenge.pushups}</div>
+                    <div className="text-sm text-gray-700">Win Bonus: {challenge.winbonus}</div>
+                    <div className="text-sm text-gray-700">Deadline: {challenge.deadline}</div>
+
+                    {/* Progress Bars - only show if goal > 0 */}
+                    <div className="mt-4">
+                      {challenge.steps > 0 && (
+                        <div className="mb-2">
+                          <div className="text-xs text-gray-600 mb-1">Steps Progress</div>
+                          <div className="w-full bg-gray-200 rounded-full h-4">
+                            <div
+                              className="bg-green-400 h-4 rounded-full"
+                              style={{ width: `${Math.min(100, Math.round((user.stepcount ?? 0) / (challenge.steps || 1) * 100))}%` }}
+                            ></div>
+                          </div>
+                          <div className="text-xs text-gray-600 mt-1">{Math.min(user.stepcount ?? 0, challenge.steps)} / {challenge.steps}</div>
+                        </div>
+                      )}
+                      {challenge.squats > 0 && (
+                        <div className="mb-2">
+                          <div className="text-xs text-gray-600 mb-1">Squats Progress</div>
+                          <div className="w-full bg-gray-200 rounded-full h-4">
+                            <div
+                              className="bg-purple-400 h-4 rounded-full"
+                              style={{ width: `${Math.min(100, Math.round((user.squat ?? 0) / (challenge.squats || 1) * 100))}%` }}
+                            ></div>
+                          </div>
+                          <div className="text-xs text-gray-600 mt-1">{Math.min(user.squat ?? 0, challenge.squats)} / {challenge.squats}</div>
+                        </div>
+                      )}
+                      {challenge.pushups > 0 && (
+                        <div>
+                          <div className="text-xs text-gray-600 mb-1">Pushups Progress</div>
+                          <div className="w-full bg-gray-200 rounded-full h-4">
+                            <div
+                              className="bg-red-400 h-4 rounded-full"
+                              style={{ width: `${Math.min(100, Math.round((user.pushup ?? 0) / (challenge.pushups || 1) * 100))}%` }}
+                            ></div>
+                          </div>
+                          <div className="text-xs text-gray-600 mt-1">{Math.min(user.pushup ?? 0, challenge.pushups)} / {challenge.pushups}</div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Claim Button or Done Label */}
+                    {challenge.winbonus > 0 && (
+                      ((challenge.steps === 0 || (user.stepcount ?? 0) >= challenge.steps) &&
+                        (challenge.squats === 0 || (user.squat ?? 0) >= challenge.squats) &&
+                        (challenge.pushups === 0 || (user.pushup ?? 0) >= challenge.pushups)) && (
+                        claimedChallenges.includes(challenge.id || challenge.title) || challenge.clear ? (
+                          <span className="mt-4 px-4 py-2 bg-gray-300 text-green-700 rounded-lg font-semibold shadow">Done</span>
+                        ) : (
+                          <button
+                            className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg font-semibold shadow hover:bg-green-600 transition-all"
+                            onClick={async () => {
+                              await fetch('/api/transaction', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                  user: user.username,
+                                  amount: challenge.winbonus,
+                                  type: 'deposit',
+                                  remarks: `Challenge claimed: ${challenge.title}`
+                                })
+                              });
+                              await fetch('/api/claim', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ id: challenge.id })
+                              });
+                              setClaimedChallenges((prev) => [...prev, challenge.id || challenge.title]);
+                            }}
+                          >
+                            Claim Reward
+                          </button>
+                        )
+                      )
+                    )}
+                  </li>
+              ))}
+            </ul>
+          )}
+        </div>
     </div>
   </div>
 )};

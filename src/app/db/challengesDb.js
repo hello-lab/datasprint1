@@ -12,7 +12,8 @@ db.exec(`
     squats INTEGER DEFAULT 0,
     pushups INTEGER DEFAULT 0,
     winbonus INTEGER DEFAULT 0,
-    deadline TEXT
+    deadline TEXT,
+    clear BOOLEAN DEFAULT 0
   )
 `);
 
