@@ -3,19 +3,34 @@ import React, { useState } from "react";
 
 const GeminiChatbot = () => {
     const [messages, setMessages] = useState([
-        { sender: "bot", text: "Hey there! I'm Steppe, your personal fitness assisstant and pal, ask me anything!" },
+        { sender: "bot", text: "Hey there! I'm Steppe, your personal fitness assistant and corporate wellness coach! 🏃‍♂️ Ask me anything about workplace wellness, team challenges, or fitness motivation!" },
     ]);
     const [input, setInput] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
 
     // Fetch real Gemini response from backend API
     const getGeminiResponse = async (userMessage) => {
         try {
+            // Get user data from localStorage
+            const userData = localStorage.getItem('user');
+            const user = userData ? JSON.parse(userData) : null;
+            
             const res = await fetch('/api/gemini', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: `${userMessage} (you are steppe, a corporate fitness assisstant to help the employees build teamwork, morale and health) (remove all markdown)` })
+                body: JSON.stringify({ 
+                    message: userMessage,
+                    userName: user?.username || 'Guest',
+                    team: user?.team || 'Unknown'
+                })
             });
             const data = await res.json();
+            
+            // Store suggestions if available
+            if (data.suggestions) {
+                setSuggestions(data.suggestions);
+            }
+            
             return data.reply || 'No response.';
         } catch (err) {
             return 'Error fetching Gemini response.';
@@ -69,6 +84,60 @@ const GeminiChatbot = () => {
                         </span>
                     </div>
                 ))}
+                
+                {/* Smart Suggestions */}
+                {suggestions.length > 0 && (
+                    <div style={{ 
+                        margin: "16px 0",
+                        padding: "12px",
+                        backgroundColor: "#f8f9fa",
+                        borderRadius: 8,
+                        border: "1px solid #e9ecef"
+                    }}>
+                        <div style={{ 
+                            fontSize: "14px", 
+                            fontWeight: "bold", 
+                            marginBottom: "8px",
+                            color: "#6c757d"
+                        }}>
+                            💡 Smart Suggestions
+                        </div>
+                        {suggestions.map((suggestion, idx) => (
+                            <div key={idx} style={{
+                                display: "flex",
+                                alignItems: "center",
+                                padding: "6px 8px",
+                                margin: "4px 0",
+                                backgroundColor: "white",
+                                borderRadius: 6,
+                                cursor: "pointer",
+                                border: "1px solid #dee2e6"
+                            }}
+                            onClick={() => {
+                                setInput(suggestion.text);
+                            }}>
+                                <span style={{ marginRight: "8px", fontSize: "16px" }}>
+                                    {suggestion.icon}
+                                </span>
+                                <div>
+                                    <div style={{ 
+                                        fontWeight: "bold", 
+                                        fontSize: "12px",
+                                        color: "#495057"
+                                    }}>
+                                        {suggestion.title}
+                                    </div>
+                                    <div style={{ 
+                                        fontSize: "11px",
+                                        color: "#6c757d"
+                                    }}>
+                                        {suggestion.text}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
             <form
                 onSubmit={handleSend}
