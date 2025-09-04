@@ -88,6 +88,22 @@ export default function RootLayout({ children }) {
                                         stats
                                     </a>
                                 </li>
+                                <li className={`ver-menu ${activeLink === '/app/challenges' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/challenges')}>
+                                    <a className="navbar-item hover:underline">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-2.125m-5.007 2.125a7.454 7.454 0 0 0 .981-2.125m-2.501 0h6.064m-6.064 0a26.696 26.696 0 0 1-.982-3.997m0 0a26.696 26.696 0 0 1 2.982-5.123c1.388-1.475 2.982-4.85 1.036-8.26-1.388-2.475-5.007-1.389-4.625.876-1.388-2.475-5.007-1.389-4.625.876C3.236-.039 6.873 3.326 8.26 4.801a26.696 26.696 0 0 1 2.982 5.123 26.696 26.696 0 0 1-.982 3.997Z" />
+                                        </svg>
+                                        Challenges
+                                    </a>
+                                </li>
+                                <li className={`ver-menu ${activeLink === '/app/analytics' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/analytics')}>
+                                    <a className="navbar-item hover:underline">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                                        </svg>
+                                        Analytics
+                                    </a>
+                                </li>
                                 <li className={`ver-menu ${activeLink === '/app/exercise' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/exercise')}>
                                     <a className="navbar-item hover:underline">
                                         <svg viewBox="0 0 94.5 94.5" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
