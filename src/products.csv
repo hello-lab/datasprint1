@@ -1,4 +1,4 @@
-type,name,image,price
+type,product_name,img_url,our_price
 hoodie,100k hoodie,100k-hoodie.png,100
 mug,100k mug,100k-mug.png,100
 t-shirt,100k t-shirt,100k-t-shirt.png,100

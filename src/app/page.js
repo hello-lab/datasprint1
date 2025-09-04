@@ -7,6 +7,7 @@ import Silk from './Silk';
 
 
 export default function Home() {
+  const [mode, setMode] = useState('login'); // 'login' or 'signup'
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [team, setTeam] = useState('');
@@ -90,6 +91,38 @@ export default function Home() {
         </ol>
 
         <div className="">
+          <div className="flex gap-4 mb-4">
+            <button
+              onClick={() => setMode('login')}
+              style={{
+                color: mode === 'login' ? '#fff' : '#1976d2',
+                background: mode === 'login' ? '#1976d2' : '#fff',
+                fontWeight: mode === 'login' ? 700 : 500,
+                border: '2px solid #1976d2',
+                borderRadius: 8,
+                padding: '8px 24px',
+                boxShadow: mode === 'login' ? '0 2px 8px #1976d2' : 'none',
+                transition: 'all 0.2s',
+              }}
+            >
+              Login
+            </button>
+            <button
+              onClick={() => setMode('signup')}
+              style={{
+                color: mode === 'signup' ? '#fff' : '#1976d2',
+                background: mode === 'signup' ? '#1976d2' : '#fff',
+                fontWeight: mode === 'signup' ? 700 : 500,
+                border: '2px solid #1976d2',
+                borderRadius: 8,
+                padding: '8px 24px',
+                boxShadow: mode === 'signup' ? '0 2px 8px #1976d2' : 'none',
+                transition: 'all 0.2s',
+              }}
+            >
+              Sign Up
+            </button>
+          </div>
           <form className="flex flex-col gap-4 items-center ">
             <input
               type="text"
@@ -98,13 +131,15 @@ export default function Home() {
               placeholder="Username"
               onChange={(e) => setUsername(e.target.value)}
             />
-<input
-              type="text"
-              style={{ color: 'black' }}
-              className="rounded border border-solid border-gray-300 p-2 mb-4"
-              placeholder="Team"
-              onChange={(e) => setTeam(e.target.value)}
-            />
+            {mode === 'signup' && (
+              <input
+                type="text"
+                style={{ color: 'black' }}
+                className="rounded border border-solid border-gray-300 p-2 mb-4"
+                placeholder="Department"
+                onChange={(e) => setTeam(e.target.value)}
+              />
+            )}
             <input
               type="password"
               style={{ color: 'black' }}
@@ -112,23 +147,23 @@ export default function Home() {
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className="flex gap-4">
-              <button
-                onClick={handleLogin}
-                style={{ color: 'black' }}
-                className="rounded-full border border-solid border-solid transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-              >
-                🙏
-                Login
-              </button>
-              <button
-                className="rounded-full border border-solid border-solid transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-                onClick={handleSignup}
-                style={{ color: 'black' }}
-              >
-                👋Sign UP
-              </button>
-            </div>
+            <button
+              onClick={mode === 'login' ? handleLogin : handleSignup}
+              style={{
+                color: '#fff',
+                background: '#1976d2',
+                fontWeight: 700,
+                border: '2px solid #1976d2',
+                borderRadius: 8,
+                padding: '10px 32px',
+                fontSize: '1.1em',
+                marginTop: 8,
+                boxShadow: '0 2px 8px #1976d2',
+                transition: 'all 0.2s',
+              }}
+            >
+              {mode === 'login' ? 'Login' : 'Sign Up'}
+            </button>
           </form>
         </div>
 </div>
