@@ -119,6 +119,68 @@ const LeaderboardPage = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-800">{user.user_name}</h3>
+                      <p className="text-sm text-gray-600">{user.team}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-green-600">
+                      {user.steps.toLocaleString()}
+                    </div>
+                    <div className="text-sm text-gray-500">steps</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {leaderboardData && leaderboardData.leaderboard.length === 0 && (
+            <div className="text-center text-gray-500 py-8">
+              <div className="text-6xl mb-4">🏃‍♂️</div>
+              <h3 className="text-xl font-semibold mb-2">No data yet!</h3>
+              <p>Be the first to sync your Google Fit data and appear on the leaderboard.</p>
+              <div className="mt-4">
+                <a 
+                  href="/app/googlefit" 
+                  className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 inline-block"
+                >
+                  Sync Your Steps
+                </a>
+              </div>
+            </div>
+          )}
+
+          {!leaderboardData && !loading && (
+            <div className="text-center text-gray-500 py-8">
+              <p>Click the refresh button to load the leaderboard</p>
+            </div>
+          )}
+        </div>
+ <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+            Today's Top Teams
+          </h2>
+          
+          {loading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              <span className="ml-2 text-gray-600">Loading leaderboard...</span>
+            </div>
+          )}
+
+          {leaderboardData && leaderboardData.leaderboardTeam.length > 0 && (
+            <div className="space-y-3">
+              {leaderboardData.leaderboardTeam.map((user) => (
+                <div
+                  key={user.rank}
+                  className={`flex items-center justify-between p-4 rounded-lg border-2 transition-all duration-200 ${getRankStyling(user.rank)}`}
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-2xl">{getMedalEmoji(user.rank)}</span>
+                      <span className="text-xl font-bold text-gray-700">#{user.rank}</span>
+                    </div>
+                    <div>
+                      <h3 className="font-  bold text-xl text-gray-800">{user.team}</h3>
                       <p className="text-sm text-gray-600">{user.user_email}</p>
                     </div>
                   </div>
@@ -155,7 +217,6 @@ const LeaderboardPage = () => {
             </div>
           )}
         </div>
-
         {/* Stats */}
         {leaderboardData && leaderboardData.leaderboard.length > 0 && (
           <div className="bg-white rounded-lg shadow-lg p-6 mb-6">

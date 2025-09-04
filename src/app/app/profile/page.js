@@ -18,7 +18,7 @@ const ProfilePage = () => {
             });
             const data = await res.json();
             
-            console.log(data.user)
+            console.log("hey"+data+"ooi")
             setUser(data.user);
         };
 

@@ -121,6 +121,12 @@ export default function RootLayout({ children }) {
                                         steppe
                                     </a>
                                 </li>
+                                <li className={`ver-menu ${activeLink === '/app/market' ? 'active' : ''}`} onClick={() => handleLinkClick('/app/market')}>
+                                    <a className="navbar-item hover:underline">
+                                        <img src="/market.svg"  width="28" height="28" className="size-6 filter-white"/>
+                                        Market
+                                    </a>
+                                </li>
                                 <li className={`last ver-menu ${activeLink === '/app/profile' ? 'active' : ''}`} >
                                     {isLoggedIn ? (
                                         <a className="navbar-item hover:underline" onClick={() => handleLinkClick('/app/profile')}>
