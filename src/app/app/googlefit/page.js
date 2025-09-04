@@ -3,19 +3,59 @@
 import { useEffect, useState } from 'react'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import { toast  } from 'react-hot-toast'
+import Cookies from 'js-cookie'
 
 const GoogleFitPage = () => {
   const { data: session, status } = useSession()
   const [stepData, setStepData] = useState(null)
   const [loading, setLoading] = useState(false)
-
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+   
+        const fetchProfile = async () => {
+            const res = await fetch('/api/auth/profile', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ key: 'value' }) // Adjust the body as needed
+            });
+            const data = await res.json();
+            
+            console.log("hey"+JSON.stringify(data.user)+"ooi")
+            setUser(data.user);
+        };
+        fetchProfile()
+  }, [])
   // Fetch step data when user is signed in
   const fetchStepData = async () => {
     if (!session) {
       toast.error('Please sign in with Google first')
       return
     }
-
+    // Claim steps function
+    const claimSteps = async () => {
+      if (!session || !stepData) {
+      toast.error('Sign in and fetch step data first')
+      return
+      }
+      try {
+      const response = await fetch('/api/claimsteps', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+        username: session.user.name,
+        steps: stepData.steps,
+        })
+      })
+      const result = await response.json()
+      if (response.ok) {
+        toast.success('Steps claimed successfully!')
+      } else {
+        toast.error(result.error || 'Failed to claim steps')
+      }
+      } catch (error) {
+      toast.error('Failed to claim steps')
+      }
+    }
     setLoading(true)
     try {
       const response = await fetch('/api/fit')
@@ -62,7 +102,7 @@ const GoogleFitPage = () => {
           </p>
         </div>
 
-        {/* Authentication Status */}
+        /* Authentication Status */
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
             Authentication Status
@@ -118,11 +158,44 @@ const GoogleFitPage = () => {
               >
                 Sign Out
               </button>
+              {/* Claim Steps Button */}
+              {stepData && (
+                <button
+                  onClick={async () => {
+                    if (!session || !stepData) {
+                      toast.error('Sign in and fetch step data first')
+                      return
+                    }
+                    console.log(user.username)
+                    try {
+                      const response = await fetch('/api/claimsteps', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          username: user.username,
+                          claim: stepData.steps,
+                        })
+                      })
+                      const result = await response.json()
+                      if (response.ok) {
+                        toast.success('Steps claimed successfully!')
+                      } else {
+                        toast.error(result.error || 'Failed to claim steps')
+                      }
+                    } catch (error) {
+                      toast.error('Failed to claim steps')
+                    }
+                  }}
+                  className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200 mt-4 ml-2"
+                >
+                  Claim Steps
+                </button>
+              )}
             </div>
           )}
         </div>
 
-        {/* Step Data Section */}
+      {/** Step Data Section */}
         {status === 'authenticated' && (
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">

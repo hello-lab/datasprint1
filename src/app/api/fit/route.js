@@ -45,7 +45,7 @@ export async function GET(request) {
     const endTime = new Date()
     // Set startTime to midnight of the previous day
     const startTime = new Date(endTime)
-    startTime.setDate(endTime.getDate() )
+    startTime.setDate(endTime.getDate() - 1)
     startTime.setHours(0, 0, 0, 0)
     
     // Format dates for Google Fit API (nanoseconds since epoch)
@@ -112,7 +112,7 @@ export async function GET(request) {
     try {
       const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
       const insertStmt = stepDb.prepare(`
-        REPLACE INTO user_steps (user_email, user_name, steps, date, team)
+        INSERT  INTO user_steps (user_email, user_name, steps, date, team)
         VALUES (?, ?, ?, ?, ?)
       `);
         const existingEntry = stepDb.prepare('SELECT * FROM user_steps WHERE user_name = ? AND date = ?').all(userr.username, today);

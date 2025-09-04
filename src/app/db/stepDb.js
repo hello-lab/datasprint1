@@ -11,7 +11,7 @@ stepDb.exec(`
     date TEXT,
         team TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(user_email, date)
+    UNIQUE( date)
   )
 `);
 
