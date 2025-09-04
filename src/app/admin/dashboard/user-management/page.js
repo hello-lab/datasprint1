@@ -71,6 +71,35 @@ export default function AdminDashboard() {
     setEditingUser(null);
     setEditValues({});
   };
+const importFromExcel = async (event) => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = ' .csv';
+    fileInput.onchange = async (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        try {
+          const response = await fetch('/api/admin/onboarding', {
+            method: 'PUT',
+            body: formData
+          });
+          const data = await response.json();
+          if (data.success) {
+            toast.success('Users imported successfully');
+            fetchUsers();
+          } else {
+            toast.error(data.error || 'Failed to import users');
+          }
+        } catch (error) {
+          toast.error('Error importing users');
+          console.error(error);
+        }
+      }
+    };
+    fileInput.click();
+  };
 
   const exportToCSV = () => {
     const headers = ['ID', 'Username', 'Email', 'Balance', 'Max Steps', 'Days Logged', 'Total Transactions', 'Total Deposits', 'Total Withdrawals','Step Count','Squat Count','Pushup Count','Team'];
@@ -79,7 +108,7 @@ export default function AdminDashboard() {
       ...users.map(user => [
         user.id,
         user.username,
-        user.user_email || 'N/A',
+        user.email || 'N/A',
         user.balance,
         user.max_steps,
         user.days_logged,
@@ -127,10 +156,16 @@ export default function AdminDashboard() {
                 <p className="text-gray-600">Manage users and view participation data</p>
               </div>
               <button
+                onClick={importFromExcel}
+                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center gap-2"
+              >
+                📊 Import from CSV
+              </button>
+              <button
                 onClick={exportToCSV}
                 className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center gap-2"
               >
-                📊 Export to Excel
+                📊 Export to CSV
               </button>
             </div>
             <div className="mt-4 text-sm text-gray-500">
@@ -196,7 +231,7 @@ export default function AdminDashboard() {
                       {user.username}
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-900 border-b">
-                      {user.user_email || 'Not provided'}
+                      {user.email || 'Not provided'}
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-900 border-b font-medium">
                       {editingUser === user.id ? (

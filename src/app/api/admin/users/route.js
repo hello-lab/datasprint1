@@ -33,7 +33,7 @@ export async function GET(request) {
         balance: user.balance,
         max_steps: steps.max_steps || 0,
         days_logged: steps.days_logged || 0,
-        user_email: steps.user_email || '',
+        email: user.email || '',
         total_transactions: transactions.total_transactions || 0,
         total_deposits: transactions.total_deposits || 0,
         total_withdrawals: transactions.total_withdrawals || 0,

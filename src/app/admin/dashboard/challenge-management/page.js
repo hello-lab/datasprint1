@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
-import {Switch} from "@heroui/react";
 
 
 

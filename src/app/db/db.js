@@ -9,6 +9,7 @@ db.exec(`
     balance INTEGER DEFAULT 0,
     transactions TEXT,
     password TEXT,
+    email TEXT DEFAULT '',
     team TEXT,
     stepcount INTEGER DEFAULT 0,
     pushup INTEGER DEFAULT 0,
