@@ -5,6 +5,8 @@ export async function GET(request) {
     // Get today's date for filtering
     const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
     
+    
+
     // Query to get leaderboard data for today, ordered by steps (descending)
     const leaderboardQuery = stepDb.prepare(`
       SELECT 
@@ -12,33 +14,48 @@ export async function GET(request) {
         user_email,
         steps,
         date,
-        created_at
+        created_at,
+        team
       FROM user_steps 
       WHERE date = ?
       ORDER BY steps DESC
       LIMIT 50
     `);
-    const usersRes = await fetch(`${request.nextUrl.origin}/api/admin/users`);
-    const usersJson = await usersRes.json();
-    const users = usersJson.users || [];
-
-    const userTeamMap = {};
-    users.forEach(user => {
-      userTeamMap[user.user_name] = user.team_name;
-    });
+    const leaderboardQuerybyTeam = stepDb.prepare(`
+      SELECT 
+        
+        
+        SUM(steps) as steps,
+        date,
+        created_at,
+        team
+      FROM user_steps 
+     
+      WHERE date = ?
+       GROUP BY team
+      ORDER BY steps DESC
+      
+      LIMIT 50
+    `);
+   
     const leaderboardData = leaderboardQuery.all(today);
-    
+    const leaderboardDataTeam = leaderboardQuerybyTeam.all(today);
     // Add ranking to the data
     const rankedData = leaderboardData.map((user, index) => ({
       rank: index + 1,
       ...user
     }));
-
+    const rankedDatabyTeam = leaderboardDataTeam.map((user, index) => ({
+      rank: index + 1,
+      ...user
+    }))
+    console.log(rankedDatabyTeam,"userdat")
     return new Response(JSON.stringify({ 
       success: true,
       date: today,
       leaderboard: rankedData,
-      totalUsers: rankedData.length
+      totalUsers: rankedData.length,
+      leaderboardTeam:rankedDatabyTeam,
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },

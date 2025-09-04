@@ -9,6 +9,7 @@ stepDb.exec(`
     user_name TEXT,
     pushups INTEGER,
     date TEXT,
+    team TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(user_email, date)
   )

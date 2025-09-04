@@ -23,7 +23,7 @@ export default function ProductDetailPage() {
   const handleBuy = async () => {
     const price = Number(product.our_price || product.price);
     const user = username;
-    const type = "deposit";
+    const type = "withdraw";
     const remarks = `Buy ${product.product_name || product.name}`;
     try {
       const res = await fetch('/api/transaction', {

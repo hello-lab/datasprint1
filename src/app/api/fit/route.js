@@ -27,6 +27,7 @@ export async function GET(request) {
        
                    try {
                         userr = verifyToken(token);
+                        userr =db.prepare("SELECT * FROM users WHERE username = ?").get(userr.username);
                        console.log((userr.username) +"hey");
                    }
                    catch{
@@ -111,19 +112,24 @@ export async function GET(request) {
     try {
       const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
       const insertStmt = stepDb.prepare(`
-        INSERT OR REPLACE INTO user_steps (user_email, user_name, steps, date)
-        VALUES (?, ?, ?, ?)
+        REPLACE INTO user_steps (user_email, user_name, steps, date, team)
+        VALUES (?, ?, ?, ?, ?)
       `);
+        const existingEntry = stepDb.prepare('SELECT * FROM user_steps WHERE user_name = ? AND date = ?').all(userr.username, today);
+        console.log(existingEntry+"hiii");
+        if(existingEntry.length==0)
          fetch("http://"+request.headers.get("host")+'/api/stats/steps',{
              method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({steps:totalSteps,user:userr.username}),
+            body: JSON.stringify({steps:totalSteps,user:userr.username,team:userr.team}),
          })
+         console.log(userr)
       insertStmt.run(
         userr.email || 'unknown',
         userr.username || 'Unknown User',
         totalSteps,
-        today
+        today,
+        userr.team
       );
     } catch (dbError) {
       console.error('Error saving step data to database:', dbError);
