@@ -96,7 +96,7 @@ export default function SocialForumPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
+    <div className="max-w-2xl mx-auto p-6" style={{color:"black"}}>
       <h1 className="text-3xl font-bold text-indigo-800 mb-6">Social Forum</h1>
       <button
         className="mb-6 px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold shadow hover:bg-indigo-700"

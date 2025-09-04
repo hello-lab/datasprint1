@@ -123,7 +123,7 @@ export default function PostDetailPage() {
           {liked ? '♥' : '♡'} Like ({likesCount})
         </button>
       </div></div>
-      <form onSubmit={handleCommentSubmit} className="flex mt-4 gap-2">
+      <form onSubmit={handleCommentSubmit} className="flex mt-4 gap-2" style={{color:"black"}}>
           <input
             className="flex-1 border rounded px-3 py-2"
             placeholder="Add a comment..."
@@ -139,7 +139,7 @@ export default function PostDetailPage() {
             Send
           </button>
         </form>
-      <div className="mb-6">
+      <div className="mb-6 mt-4" style={{color:"black"}}>
         <h2 className="font-semibold mb-2">Comments</h2>
         {comments.length === 0 ? (
           <div className="text-gray-400">No comments yet.</div>
