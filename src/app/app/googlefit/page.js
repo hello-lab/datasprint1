@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useSession, signIn, signOut } from 'next-auth/react'
-import { toast, Toaster } from 'react-hot-toast'
+import { toast  } from 'react-hot-toast'
 
 const GoogleFitPage = () => {
   const { data: session, status } = useSession()
@@ -50,7 +50,6 @@ const GoogleFitPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 p-8">
-      <Toaster position="top-right" />
       
       <div className="max-w-4xl mx-auto">
         {/* Header */}

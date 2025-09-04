@@ -9,7 +9,10 @@ db.exec(`
     balance INTEGER DEFAULT 0,
     transactions TEXT,
     password TEXT,
-    stepcount INTEGER DEFAULT 0
+    team TEXT,
+    stepcount INTEGER DEFAULT 0,
+    pushup INTEGER DEFAULT 0,
+    squat INTEGER DEFAULT 0
   )
 `);
 

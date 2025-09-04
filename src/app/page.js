@@ -9,14 +9,14 @@ import Silk from './Silk';
 export default function Home() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
+  const [team, setTeam] = useState('');
   const handleSignup = async (e) => {
     e.preventDefault();
     toast.loading('Waiting...');
     const res = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username:username, password: password }),
+      body: JSON.stringify({ username:username, password: password,team }),
     });
 
     const data = await res.json();
@@ -35,7 +35,7 @@ export default function Home() {
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username:username, password: password }),
+      body: JSON.stringify({ username:username, password: password}),
     });
 
     
@@ -70,6 +70,9 @@ export default function Home() {
       boxShadow: '0 4px 32px 0 rgba(31, 38, 135, 0.15), 8px 8px 12px 0 rgba(0,0,0,0.25)', // small black shadow bottom right
     }}
   >
+    <div>
+    
+    <div className="w-full p-8 sm:p-4 flex flex-col gap-8 items-center">
         <img
           src="/logo.png"
           alt="Next.js logo"
@@ -95,7 +98,13 @@ export default function Home() {
               placeholder="Username"
               onChange={(e) => setUsername(e.target.value)}
             />
-
+<input
+              type="text"
+              style={{ color: 'black' }}
+              className="rounded border border-solid border-gray-300 p-2 mb-4"
+              placeholder="Team"
+              onChange={(e) => setTeam(e.target.value)}
+            />
             <input
               type="password"
               style={{ color: 'black' }}
@@ -122,6 +131,9 @@ export default function Home() {
             </div>
           </form>
         </div>
+</div>
+</div>
+
       </main>
     </div>
   );

@@ -8,7 +8,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [editingUser, setEditingUser] = useState(null);
   const [editValues, setEditValues] = useState({});
-
+  const [heads, setHeads] = useState([]);
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -87,7 +87,7 @@ export default function AdminDashboard() {
   };
 
   const exportToCSV = () => {
-    const headers = ['ID', 'Username', 'Email', 'Balance', 'Step Count', 'Max Steps', 'Days Logged', 'Total Transactions', 'Total Deposits', 'Total Withdrawals'];
+    const headers = ['ID', 'Username', 'Email', 'Balance', 'Max Steps', 'Days Logged', 'Total Transactions', 'Total Deposits', 'Total Withdrawals'];
     const csvContent = [
       headers.join(','),
       ...users.map(user => [
@@ -95,7 +95,6 @@ export default function AdminDashboard() {
         user.username,
         user.user_email || 'N/A',
         user.balance,
-        user.stepcount,
         user.max_steps,
         user.days_logged,
         user.total_transactions,
@@ -181,7 +180,16 @@ export default function AdminDashboard() {
                     Balance
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
+                    Team
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
                     Step Count
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
+                    Pushup Count
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
+                    Squat Count
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
                     Max Steps
@@ -224,8 +232,11 @@ export default function AdminDashboard() {
                           className="w-24 px-2 py-1 border border-gray-300 rounded text-sm"
                         />
                       ) : (
-                        `₹${user.balance.toLocaleString()}`
+                        `${user.balance.toLocaleString()}`
                       )}
+                    </td>
+                    <td className="px-4 py-4 text-sm text-gray-900 border-b">
+                      {user.team || 'Not provided'}
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-900 border-b">
                       {editingUser === user.id ? (
@@ -237,6 +248,30 @@ export default function AdminDashboard() {
                         />
                       ) : (
                         user.stepcount.toLocaleString()
+                      )}
+                    </td>
+                    <td className="px-4 py-4 text-sm text-gray-900 border-b">
+                      {editingUser === user.id ? (
+                        <input
+                          type="number"
+                          value={editValues.squatcount}
+                          onChange={(e) => setEditValues({...editValues, squatcount: parseInt(e.target.value)})}
+                          className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+                        />
+                      ) : (
+                        user.squatcount.toLocaleString()
+                      )}
+                    </td>
+                    <td className="px-4 py-4 text-sm text-gray-900 border-b">
+                      {editingUser === user.id ? (
+                        <input
+                          type="number"
+                          value={editValues.pushupcount}
+                          onChange={(e) => setEditValues({...editValues, stepcount: parseInt(e.target.value)})}
+                          className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+                        />
+                      ) : (
+                        user.pushupcount.toLocaleString()
                       )}
                     </td>
                     <td className="px-4 py-4 text-sm text-blue-600 border-b font-medium">

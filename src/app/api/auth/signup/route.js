@@ -12,15 +12,15 @@ export async function GET(request) {
 export  async function POST(request, res) {
   if (request.method !== 'POST') return res.status(405).end();
 
-  const {username,password} = await request.json()
+  const {username,password,team} = await request.json()
 
 console.log(username)
 
 
   try {
     const hashedPassword = await hashPassword(password);
-    const stmt = db.prepare('INSERT INTO users (username, password,balance) VALUES (?, ?,100000)');
-    stmt.run(username, hashedPassword);
+    const stmt = db.prepare('INSERT INTO users (username, password,balance,team) VALUES (?, ?,100,?)');
+    stmt.run(username, hashedPassword,team);
 
     return new Response(JSON.stringify("User Created"), {
       status: 200,

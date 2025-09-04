@@ -1,3 +1,4 @@
+import { sqrt } from '@tensorflow/tfjs-core';
 import db from '../../../db/db';
 import stepDb from '../../../db/stepDb';
 import transactionDb from '../../../db/transactionDb';
@@ -5,12 +6,12 @@ import transactionDb from '../../../db/transactionDb';
 export async function GET(request) {
   try {
     // Get all users
-    const users = db.prepare('SELECT id, username, balance, stepcount FROM users').all();
+    const users = db.prepare('SELECT * FROM users').all();
     // Get user steps data - latest for each user
     const userSteps = stepDb.prepare(`
       SELECT user_name, user_email, MAX(steps) as max_steps, COUNT(*) as days_logged
       FROM user_steps 
-      GROUP BY user_email
+      GROUP BY user_name
     `).all();
     // Get transaction summary for each user
     const userTransactions = transactionDb.prepare(`
@@ -22,6 +23,7 @@ export async function GET(request) {
       GROUP BY userId
     `).all();
     // Combine all data
+    console.log(users)
     const combinedData = users.map(user => {
       const steps = userSteps.find(s => s.user_name === user.username) || {};
       const transactions = userTransactions.find(t => t.userId === user.username) || {};
@@ -29,13 +31,16 @@ export async function GET(request) {
         id: user.id,
         username: user.username,
         balance: user.balance,
-        stepcount: user.stepcount,
         max_steps: steps.max_steps || 0,
         days_logged: steps.days_logged || 0,
         user_email: steps.user_email || '',
         total_transactions: transactions.total_transactions || 0,
         total_deposits: transactions.total_deposits || 0,
-        total_withdrawals: transactions.total_withdrawals || 0
+        total_withdrawals: transactions.total_withdrawals || 0,
+        team: user.team || '',
+        stepcount: user.stepcount ,
+        squatcount: user.squat ,
+        pushupcount: user.pushup ,
       };
     });
     return new Response(JSON.stringify({

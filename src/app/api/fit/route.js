@@ -1,11 +1,13 @@
 import { auth } from "../../lib/auth"
 import stepDb from "../../db/stepDb"
+import db from "../../db/db"
+import { verifyToken } from '../../utils/auth';
 
 export async function GET(request) {
   try {
     // Get the session to access the user's access token
     const session = await auth()
-    
+    let userr=""
     if (!session || !session.accessToken) {
       return new Response(JSON.stringify({ error: 'Not authenticated with Google' }), {
         status: 401,
@@ -13,13 +15,44 @@ export async function GET(request) {
       })
     }
 
+    //verify
+      const cookies = request.cookies.getAll();
+    const tokenCookie = cookies.find(c => c.name === 'token');
+    const token = tokenCookie ? tokenCookie.value : null;
+       
+                   if (!token) return new Response(JSON.stringify({ error: 'Invalid token' }), {
+                       status: 401,
+                       headers: { 'Content-Type': 'application/json' },
+                   });
+       
+                   try {
+                        userr = verifyToken(token);
+                       console.log((userr.username) +"hey");
+                   }
+                   catch{
+                     return new Response(JSON.stringify({ error: 'Not authenticated' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      })
+                   }
+
+
+
+
+
     // Calculate date range for last 24 hours
     const endTime = new Date()
-    const startTime = new Date(endTime.getTime() - 24 * 60 * 60 * 1000) // 24 hours ago
+    // Set startTime to midnight of the previous day
+    const startTime = new Date(endTime)
+    startTime.setDate(endTime.getDate() )
+    startTime.setHours(0, 0, 0, 0)
     
     // Format dates for Google Fit API (nanoseconds since epoch)
     const startTimeNanos = (startTime.getTime() * 1000000).toString()
     const endTimeNanos = (endTime.getTime() * 1000000).toString()
+
+
+  
 
     // Google Fit API request for step count data
     const fitApiUrl = 'https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate'
@@ -81,10 +114,14 @@ export async function GET(request) {
         INSERT OR REPLACE INTO user_steps (user_email, user_name, steps, date)
         VALUES (?, ?, ?, ?)
       `);
-      
+         fetch("http://"+request.headers.get("host")+'/api/stats/steps',{
+             method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({steps:totalSteps,user:userr.username}),
+         })
       insertStmt.run(
-        session.user?.email || 'unknown',
-        session.user?.name || 'Unknown User',
+        userr.email || 'unknown',
+        userr.username || 'Unknown User',
         totalSteps,
         today
       );

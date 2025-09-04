@@ -42,7 +42,6 @@ export default function PushupPage() {
   const motionBufferRef = useRef([]);
   const lastMotionTimeRef = useRef(Date.now());
   const [dormant, setDormant] = useState(false);
-
   // Configs
   const SMOOTH_WINDOW = 6;
   const CALIBRATION_FRAMES = 24;
@@ -139,6 +138,7 @@ export default function PushupPage() {
     let animationId;
 
     async function calibratePose() {
+      setStarted(!started);
       if (
         net &&
         videoRef.current &&
@@ -184,7 +184,7 @@ export default function PushupPage() {
         ) {
           initialLeftDistRef.current = movingAverage(leftDistances.current, SMOOTH_WINDOW);
           initialRightDistRef.current = movingAverage(rightDistances.current, SMOOTH_WINDOW);
-          setStarted(true);
+          
           setCalibrating(false);
           toast.success("Calibration complete! Start your pushups.", { icon: "🏁", id: "initial" });
         } else {
@@ -344,14 +344,13 @@ export default function PushupPage() {
       color: "#000",
       fontFamily: "system-ui, Arial, sans-serif"
     }}>
-      <Toaster position="top-right" />
       <ol className="exercise-cam">
       <li >
-        <div style={{display:"grid",gridArea:"repeat(2, 1fr)",gap:"2vh" }}>
+        <div style={{display:"grid",gridArea:"repeat(2, 1fr)", }}>
         <div style={{ fontSize: "1.2rem", marginBottom: 5, color: "#000",gridArea:"1/1" }}>
           {status}
         </div>
-        <div style={{ fontSize: "2rem", marginBottom: 8, color: "#000",gridArea:"2/1" }}>
+        <div style={{ fontSize: "2rem", marginBottom: 8, color: "#000",gridArea:"3/1" }}>
           Pushups: {count}
         </div>
         <button
@@ -360,7 +359,7 @@ export default function PushupPage() {
                 borderRadius: 8,
                 fontWeight: "bold",
                 fontSize: "1.5rem",
-                background: "rgb(88, 92, 218)",
+                background: !started?"rgba(141, 240, 117, 1)":"rgba(235, 129, 129, 1)",
                 color: "#ffffffff",
                 border: "2px solid #333",
                 cursor: "pointer",
@@ -376,7 +375,7 @@ export default function PushupPage() {
                 toast("Hold plank/up position for calibration...", { icon: "⏳", id: "calib" });
               }}
             >
-              Start
+              {started ? "Stop" : "Start"}
             </button>
           </div>
         <div style={{ position: "relative", display: "inline-block" }}>
@@ -400,6 +399,7 @@ export default function PushupPage() {
             ref={canvasRef}
             width={VIDEO_W}
             height={VIDEO_H}
+            className="translate-y-[-60px]"
             style={{
               position: "absolute",
               top: 0,
