@@ -127,8 +127,11 @@ export default function AdminDashboard() {
                 onSubmit={async e => {
                   e.preventDefault();
                   console.log(typeof(targetName),targetName);
-                  if (!challengeTitle || (!targetName || (targetType === 'all_users' || targetType === 'all_teams')) || !deadline) {
+                  if (!challengeTitle || !targetName || !deadline) {
                     toast.error('Please fill all required fields');
+                    return;
+                  else if ((targetType === 'user' || targetType === 'team') && !targetName) {
+                    toast.error('Please select a target name');
                     return;
                   }
                   const payload = {
