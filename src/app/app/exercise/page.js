@@ -363,10 +363,61 @@ export default function PushupPage() {
                 color: "#ffffffff",
                 border: "2px solid #333",
                 cursor: "pointer",
-                gridArea:"1/2/span 2",
+                gridArea:"1/2/span 3",
                 transform:"translate(-20%,-8%)"
               }}
               onClick={() => {
+                if (started) {
+                    console.log("Sent pushup count for user:");
+                    // Get username from API before sending pushup count
+                     fetch('/api/auth/profile', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ key: 'value' }) // Adjust the body as needed
+            })
+                    .then(res => res.json())
+                    .then(data => {
+                      console.log("hey"+JSON.stringify(data)+"ooi")
+                      const username = data.user.username || "anonymous";
+                      //console.log(username);
+                      
+                      fetch("/api/stats/pushups", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        user: username,
+                        pushups: count
+                      })
+                        
+                      
+                      }).then(async () => {
+                        const type = "deposit";
+                        const remarks = `completed ${count} pushups`;
+                        try {
+                          const res = await fetch('/api/transaction', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ user:username, amount: count, type, remarks }),
+                          });
+                          const result = await res.json();
+                          if (res.ok) {
+                            toast.success(`${count} coin gained!`);
+                          } else {
+                            toast.error('oopsie');
+                            console.log(result);
+                          }
+                        } catch (err) {
+                          toast.error('Big oopsie');
+                          console.error(err);
+                        }
+                      //window.location.reload();
+                      setCount(0);
+                      setCalibrating(false);
+                      })
+                      
+                    });
+                    
+                }
                 setCalibrating(true);
                 leftDistances.current = [];
                 rightDistances.current = [];

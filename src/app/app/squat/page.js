@@ -352,29 +352,57 @@ export default function SquatTrackerPage() {
         Squats: {count}
       </h2>
       <button
-            style={{
-              padding: "1px",
-              borderRadius: 8,
-              fontWeight: "bold",
-              fontSize: "1.5rem",
-              background: "rgb(88, 92, 218)",
-              color: "#ffffffff",
-              border: "2px solid #333",
-              cursor: "pointer",
-              gridArea:"1/2/span 2",
-              transform:"translate(-20%,-8%)"
-            }}
-            onClick={() => {
-              setCalibrating(true);
-              leftDistances.current = [];
-              rightDistances.current = [];
-              initialLeftDistRef.current = null;
-              initialRightDistRef.current = null;
-              toast("Stand tall for calibration, keep still...", { icon: "⏳", id: "calib" });
-            }}
-          >
-            Start
-        </button>
+              style={{
+                padding: "1px",
+                borderRadius: 8,
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+                background: !started?"rgba(141, 240, 117, 1)":"rgba(235, 129, 129, 1)",
+                color: "#ffffffff",
+                border: "2px solid #333",
+                cursor: "pointer",
+                gridArea:"1/2/span 3",
+                transform:"translate(-20%,-8%)"
+              }}
+              onClick={() => {
+                if (started) {
+                    console.log("Sent pushup count for user:");
+                    // Get username from API before sending pushup count
+                     fetch('/api/auth/profile', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ key: 'value' }) // Adjust the body as needed
+            })
+                    .then(res => res.json())
+                    .then(data => {
+                      console.log("hey"+JSON.stringify(data)+"ooi")
+                      const username = data.user.username || "anonymous";
+                      console.log(username);
+                      fetch("/api/stats/squats", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        user: username,
+                        squats: count
+                      })
+                      }).then(() => {window.location.reload();
+                      setCount(0);
+                      setCalibrating(false);
+                      })
+                      
+                    });
+                    
+                }
+                setCalibrating(true);
+                leftDistances.current = [];
+                rightDistances.current = [];
+                initialLeftDistRef.current = null;
+                initialRightDistRef.current = null;
+                toast("Hold plank/up position for calibration...", { icon: "⏳", id: "calib" });
+              }}
+            >
+              {started ? "Stop" : "Start"}
+            </button>
       </div>
       <div style={{ position: "relative", display: "inline-block" }}>
         <video
