@@ -747,7 +747,7 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-h-96 overflow-y-auto">
             {data.users
               .sort((a, b) => b.engagement_index - a.engagement_index)
-              .slice(0, 24)
+              
               .map((user, idx) => {
                 const challengeColors = {
                   steps: 'from-blue-50 to-blue-100 border-blue-200',
@@ -817,7 +817,7 @@ export default function Dashboard() {
           </div>
           <div className="mt-4 text-center">
             <p className="text-sm text-gray-600">
-              Showing top 24 users by engagement. AI recommendations include multiple challenge types with personalized deadlines based on performance data.
+              Showing all users by engagement. AI recommendations include multiple challenge types with personalized deadlines based on performance data.
             </p>
           </div>
         </div>

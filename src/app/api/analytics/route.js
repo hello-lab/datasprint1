@@ -4,6 +4,7 @@ import path from 'path';
 import csv from 'csv-parser';
 import _ from 'lodash';
 import { kmeans } from 'ml-kmeans';
+const { Readable } = require('stream');
 
 // Helper Functions
 function median(values) {
@@ -32,22 +33,27 @@ function euclidean(a, b) {
   return Math.sqrt(a.reduce((sum, val, i) => sum + Math.pow(val - b[i], 2), 0));
 }
 
-async function readCSVData() {
-  return new Promise((resolve, reject) => {
+async function readCSVData(url) {
+// Fetch CSV from remote API endpoint
+const res = await fetch(`http://${url || 'localhost:3000'}/api/admin/usersall`);
+if (!res.ok) throw new Error('Failed to fetch CSV');
+const text = await res.text();
+
+// Parse CSV using csv-parser from a stream
+return new Promise((resolve, reject) => {
     const users = [];
-    const csvPath = path.join(process.cwd(), 'users.csv');
-    
-    fs.createReadStream(csvPath)
-      .pipe(csv())
-      .on('data', (row) => users.push(row))
-      .on('end', () => resolve(users))
-      .on('error', (error) => reject(error));
-  });
+    const stream = Readable.from([text]);
+    stream
+        .pipe(csv())
+        .on('data', (row) => users.push(row))
+        .on('end', () => resolve(users))
+        .on('error', (error) => reject(error));
+});
 }
 
-export async function GET() {
+export async function GET(req) {
   try {
-    const users = await readCSVData();
+    const users = await readCSVData(req.headers.get('host'));
     
     // Preprocess
     const processed = users.map(u => ({
