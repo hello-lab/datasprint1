@@ -57,9 +57,11 @@ DataSprint1 is designed to boost corporate wellness programs by:
 
 For detailed information about all features and technical implementation:
 
+- **📋 [Documentation Summary](./docs/DOCUMENTATION_SUMMARY.md)** - Quick reference and navigation guide
 - **📋 [New Features Documentation](./docs/NEW_FEATURES_DOCUMENTATION.md)** - Complete guide to all advanced features
 - **🔌 [API Architecture & Flowcharts](./docs/API_FLOWCHARTS.md)** - Comprehensive API documentation with visual flowcharts
 - **🗃️ [Database Schema & Relationships](./docs/DATABASE_SCHEMA.md)** - Detailed database documentation with ER diagrams
+- **🏗️ [System Architecture](./docs/SYSTEM_ARCHITECTURE.md)** - Visual system architecture and user journey diagrams
 
 ## 🏗️ Architecture
 
