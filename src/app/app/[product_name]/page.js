@@ -67,7 +67,7 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <div style={{ padding: 32, maxWidth: 600, margin: "0 auto" }}>
+    <div style={{ padding: 32, maxWidth: 600, margin: "0 auto",color:"black" }}>
       
       <h1 style={{ fontSize: "2em", fontWeight: 700, marginBottom: 24 }}>
         {product.product_name || product.name}
@@ -78,7 +78,7 @@ export default function ProductDetailPage() {
         style={{ width: "100%", maxHeight: 320, objectFit: "cover", borderRadius: 12, marginBottom: 24 }}
       />
       <div style={{ fontWeight: 600, color: "#1976d2", fontSize: "1.5em", marginBottom: 16 }}>
-        ₹{product.our_price || product.price}
+        <img src="/coin.png" alt="coin" style={{ height: '24px', width: '24px', marginRight: 6,display:'inline-block' }}/>{product.our_price || product.price}
       </div>
       <div style={{ color: "#888", fontSize: "1.1em", marginBottom: 16 }}>
         Type: {product.type}

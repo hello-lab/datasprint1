@@ -1,21 +1,16 @@
 type,product_name,img_url,our_price
-hoodie,100k hoodie,/100k-hoodie.png,100
-mug,100k mug,/100k-mug.png,100
-t-shirt,100k t-shirt,/100k-t-shirt.png,100
-sticker,100k sticker,/100k-sticker.png,100
-badge,100k badge,/100k-badge.png,100
-hoodie,100k hoodie,/100k-hoodie.png,100
-mug,100k mug,/100k-mug.png,100
-t-shirt,100k t-shirt,/100k-t-shirt.png,100
-sticker,100k sticker,/100k-sticker.png,100
-badge,100k badge,/100k-badge.png,100
-hoodie,100k hoodie,/100k-hoodie.png,100
-mug,100k mug,/100k-mug.png,100
-t-shirt,100k t-shirt,/100k-t-shirt.png,100
-sticker,100k sticker,/100k-sticker.png,100
-badge,100k badge,/100k-badge.png,100
-hoodie,100k hoodie,/100k-hoodie.png,100
-mug,100k mug,/100k-mug.png,100
-t-shirt,100k t-shirt,/100k-t-shirt.png,100
-sticker,100k sticker,/100k-sticker.png,100
-badge,100k badge,/100k-badge.png,100
+t-shirt,100k t-shirt,/merch/100k-steps-t-shirt.png,100
+mug,100k mug,/merch/100k-steps-mug.png,100
+sticker,100k sticker,/merch/100k-steps-sticker.png,100
+t-shirt,1k pushup t-shirt,/merch/1k-pushup-t-shirt.png,100
+mug,1k pushup mug,/merch/1k-pushup-mug.png,100
+sticker,1k pushup sticker,/merch/1k-pushups-sticker.png,100
+t-shirt,1k squat t-shirt,/merch/1k-squats-t-shirt.png,100
+mug,1k squat mug,/merch/1k-squat-mug.png,100
+sticker,1k squat sticker,/merch/1k-squats-sticker.png,100
+t-shirt,stepup t-shirt,/merch/stepup-t-shirt.png,100
+mug,stepup mug,/merch/stepup-mug.png,100
+sticker,stepup sticker,/merch/stepup-sticker.png,100
+t-shirt,coin t-shirt,/merch/coin-t-shirt.png,100
+mug,coin mug,/merch/coin-mug.png,100
+sticker,coin sticker,/merch/coin-sticker.png,100
